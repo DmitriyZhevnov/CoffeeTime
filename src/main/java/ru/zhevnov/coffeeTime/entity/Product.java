@@ -11,6 +11,9 @@ public class Product {
     private int id;
     private String name;
     private double price;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @ManyToMany
     @JoinTable(name = "basket_item_product",
@@ -31,9 +34,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, double price) {
+    public Product(String name, double price, Category category) {
         this.name = name;
         this.price = price;
+        this.category = category;
     }
 
     public int getId() {
@@ -84,12 +88,21 @@ public class Product {
         this.orderItems = orderItems;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", category=" + category +
                 '}';
     }
 }

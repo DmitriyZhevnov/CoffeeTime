@@ -31,7 +31,7 @@ public class LoginController {
         if (employee == null) {
             return "страница не существующего";
         }
-//        model.addAttribute("person", person);
-        return "redirect:/myStore/main";
+        model.addAttribute("person", employee);
+        return "redirect:/main";
     }
 }

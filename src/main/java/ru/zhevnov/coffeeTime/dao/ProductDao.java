@@ -15,6 +15,7 @@ public class ProductDao implements IProductDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+
     public List<Product> returnAllProducts(){
         try(Session session = sessionFactory.openSession()){
             session.beginTransaction();
