@@ -14,7 +14,7 @@ public class BasketItem {
     private Basket basket;
     private int quantity;
 
-    @ManyToMany(mappedBy = "basketItems", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "basketItems", fetch = FetchType.EAGER)
     private List<Product> products;
 
     public BasketItem() {

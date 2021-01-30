@@ -2,6 +2,7 @@ package ru.zhevnov.coffeeTime.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.zhevnov.coffeeTime.entity.BasketItem;
@@ -51,22 +52,19 @@ public class BasketDao implements IBasketDao {
     public void deleteItem(Employee employee1, int idProduct) {
         Employee employee = sessionFactory.getCurrentSession().get(Employee.class, employee1.getId());
         BasketItem basketItem = employee.getBasket().getBasketItems().stream().filter(s -> s.getProducts().get(0).getId() == idProduct).collect(Collectors.toList()).get(0);
-        BasketItem newB = sessionFactory.getCurrentSession().get(BasketItem.class, basketItem.getId());
         Product product = sessionFactory.getCurrentSession().get(Product.class, idProduct);
-//        employee.getBasket().getBasketItems().remove(newB);
+        employee.getBasket().getBasketItems().remove(basketItem);
         product.getBasketItems().remove(basketItem);
-//        BasketItem productItem = product.getBasketItems().stream().filter(s -> s.getProducts().get(0).getId() == idProduct).collect(Collectors.toList()).get(0);
-//        sessionFactory.getCurrentSession().update(product);
-        System.out.println(newB);
-//        sessionFactory.getCurrentSession().delete(newB);
-//        sessionFactory.getCurrentSession().update(newB);
-//        sessionFactory.getCurrentSession().delete(basketItem);
+        sessionFactory.getCurrentSession().delete(basketItem);
+        sessionFactory.getCurrentSession().update(employee);
+        sessionFactory.getCurrentSession().update(product);
     }
 
     @Transactional
     public List<BasketItem> returnListOfProductsInBasket(Employee employee) {
         Employee e = sessionFactory.getCurrentSession().get(Employee.class, employee.getId());
-        System.out.println(e.getBasket().getBasketItems());
-        return e.getBasket().getBasketItems();
+        Query query = sessionFactory.getCurrentSession().createQuery("from BasketItem where basket.employee.id =:employeeId");
+        query.setParameter("employeeId", employee.getId());
+        return query.list();
     }
 }

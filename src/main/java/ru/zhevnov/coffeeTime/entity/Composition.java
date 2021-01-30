@@ -14,7 +14,7 @@ public class Composition {
     private Item item;
     private double quantity;
 
-    @ManyToMany(mappedBy = "composition", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "composition", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Product> products;
 
     public Composition() {

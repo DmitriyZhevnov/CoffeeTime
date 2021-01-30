@@ -13,7 +13,7 @@ public class OrderItem {
     private Order order;
     private int quantity;
 
-    @ManyToMany(mappedBy = "orderItems", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "orderItems", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Product> products;
 
     public OrderItem() {

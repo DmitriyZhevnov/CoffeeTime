@@ -12,7 +12,7 @@ public class Category {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private Set<Product> products = new HashSet<>();
 
     public Category() {

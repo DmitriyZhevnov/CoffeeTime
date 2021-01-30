@@ -16,7 +16,7 @@ public class Item {
     @Column(name = "quantity_in_warehouse")
     private double quantityInWarehouse;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
     private Set<Composition> compositions = new HashSet<>();
     @ManyToMany
     @JoinTable(name = "commercial_object_item",

@@ -23,7 +23,7 @@ public class Order {
     private String paymentType;
     private String info;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private Set<OrderItem> orderItems = new HashSet<>();
 
     public Order() {

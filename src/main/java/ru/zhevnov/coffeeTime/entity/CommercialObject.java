@@ -12,9 +12,9 @@ public class CommercialObject {
     private int id;
     private String address;
 
-    @OneToMany(mappedBy = "commercialObject", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "commercialObject", fetch = FetchType.LAZY)
     private Set<Shift> shifts = new HashSet<>();
-    @OneToMany(mappedBy = "commercialObject", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "commercialObject", fetch = FetchType.LAZY)
     private Set<CommercialObjectQuantityOfItems> commercialObjectQuantityOfItems = new HashSet<>();
 
     public CommercialObject() {

@@ -15,7 +15,7 @@ public class Client {
     private String phoneNumber;
     private double discount;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
 
     public Client() {
