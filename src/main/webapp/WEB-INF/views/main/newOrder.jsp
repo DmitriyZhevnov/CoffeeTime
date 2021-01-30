@@ -8,16 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
     <title>newOrder</title>
 </head>
 <body>
-<c:forEach items="${listOfProducts}" var="product">
+<c:forEach items="${coffees}" var="product">
     <form action='/shop/' method='POST'>
         <input type="hidden" name="idProduct" value=" ${product.id}"/>
-        <input type='submit' value=${product.name}/>
+        <input type='submit' value="${product.name}"/>
     </form>
 </c:forEach>
+
+<form style="alignment: left">
+
+</form>
 </body>
 </html>

@@ -6,7 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import ru.zhevnov.coffeeTime.entity.Product;
+import ru.zhevnov.coffeeTime.service.ICategoryService;
 import ru.zhevnov.coffeeTime.service.IProductService;
+
+import java.util.List;
 
 @Controller
 @SessionAttributes("person")
@@ -14,7 +18,7 @@ import ru.zhevnov.coffeeTime.service.IProductService;
 public class MainController {
 
     @Autowired
-    private IProductService productService;
+    private ICategoryService categoryService;
 
     @GetMapping
     public String showMainPage() {
@@ -23,7 +27,7 @@ public class MainController {
 
     @GetMapping("/newOrder")
     public String newOrder(Model model) {
-        model.addAttribute("listOfProducts", productService.returnAllProducts());
+        model.addAttribute("coffees", categoryService.returnAllCoffees());
         return "main/newOrder";
     }
 }
