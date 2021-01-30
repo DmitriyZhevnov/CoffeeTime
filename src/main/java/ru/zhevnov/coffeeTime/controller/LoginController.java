@@ -9,13 +9,13 @@ import ru.zhevnov.coffeeTime.service.IEmployeeService;
 
 @Controller
 @RequestMapping("/login")
-@SessionAttributes("person")
+@SessionAttributes("user")
 public class LoginController {
 
     @Autowired
     private IEmployeeService employeeService;
 
-    @ModelAttribute("person")
+    @ModelAttribute("user")
     public Employee newEmployee() {
         return new Employee();
     }
@@ -31,7 +31,7 @@ public class LoginController {
         if (employee == null) {
             return "страница не существующего";
         }
-        model.addAttribute("person", employee);
+        model.addAttribute("user", employee);
         return "redirect:/main";
     }
 }

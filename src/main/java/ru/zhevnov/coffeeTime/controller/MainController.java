@@ -3,22 +3,24 @@ package ru.zhevnov.coffeeTime.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
+import ru.zhevnov.coffeeTime.entity.Employee;
 import ru.zhevnov.coffeeTime.entity.Product;
+import ru.zhevnov.coffeeTime.service.IBasketService;
 import ru.zhevnov.coffeeTime.service.ICategoryService;
 import ru.zhevnov.coffeeTime.service.IProductService;
 
 import java.util.List;
 
 @Controller
-@SessionAttributes("person")
+@SessionAttributes("user")
 @RequestMapping("/main")
 public class MainController {
 
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private IBasketService basketService;
 
     @GetMapping
     public String showMainPage() {
@@ -26,8 +28,31 @@ public class MainController {
     }
 
     @GetMapping("/newOrder")
-    public String newOrder(Model model) {
+    public String newOrder(Model model, @ModelAttribute("user") Employee employee) {
         model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
+        return "main/newOrder";
+    }
+
+    @GetMapping("/newOrder/add/{idProduct}")
+    public String addProduct(@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+        basketService.addProductToBasket(employee.getId(), idProduct,1);
+        model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
+        return "main/newOrder";
+    }
+    @GetMapping("/newOrder/sub/{idProduct}")
+    public String subProduct(@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+        basketService.addProductToBasket(employee.getId(), idProduct,-1);
+        model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
+        return "main/newOrder";
+    }
+    @GetMapping("/newOrder/delete/{idProduct}")
+    public String deleteProduct(@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+        basketService.deleteItem(employee, idProduct);
+        model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
         return "main/newOrder";
     }
 }

@@ -29,7 +29,7 @@
 
 </head>
 <body>
-<form:form action="/login" method="post" modelAttribute="person">
+<form:form action="/login" method="post" modelAttribute="user">
     <spring:message code="login.login"/>
     <form:input path="login"/>
     <br/>
