@@ -38,14 +38,14 @@ public class BasketDao implements IBasketDao {
     }
 
     public void updateCount(Employee employee1, int idProduct, int count) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            Employee employee = session.get(Employee.class, employee1.getId());
-            BasketItem basketItem = employee.getBasket().getBasketItems().stream().filter(s -> s.getProducts().get(0).getId() == idProduct).collect(Collectors.toList()).get(0);
-            basketItem.setQuantity(count);
-            session.update(basketItem);
-            session.getTransaction().commit();
-        }
+//        try (Session session = sessionFactory.openSession()) {
+//            session.beginTransaction();
+//            Employee employee = session.get(Employee.class, employee1.getId());
+//            BasketItem basketItem = employee.getBasket().getBasketItems().stream().filter(s -> s.getProducts().get(0).getId() == idProduct).collect(Collectors.toList()).get(0);
+//            basketItem.setQuantity(count);
+//            session.update(basketItem);
+//            session.getTransaction().commit();
+//        }
     }
 
     @Transactional
