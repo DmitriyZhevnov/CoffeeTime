@@ -1,9 +1,11 @@
 package ru.zhevnov.coffeeTime.controller;
 
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.zhevnov.coffeeTime.dao.IShiftDao;
 import ru.zhevnov.coffeeTime.entity.BasketItem;
 import ru.zhevnov.coffeeTime.entity.Employee;
 import ru.zhevnov.coffeeTime.entity.Product;
@@ -22,6 +24,10 @@ public class MainController {
     private ICategoryService categoryService;
     @Autowired
     private IBasketService basketService;
+    //////Изменить на сервис
+    @Autowired
+    private IShiftDao shiftDao;
+    //////////////////
 
     @GetMapping
     public String showMainPage() {
@@ -55,5 +61,11 @@ public class MainController {
         model.addAttribute("coffees", categoryService.returnAllCoffees());
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
         return "main/newOrder";
+    }
+
+    @GetMapping("/closeShift")
+    public String closeShift(@ModelAttribute("user") Employee employee, Model model){
+        shiftDao.closeShift(employee);
+        return "redirect:/login";
     }
 }

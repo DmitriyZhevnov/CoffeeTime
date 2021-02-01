@@ -29,7 +29,7 @@
             </form:form>
         </td>
         <td height="10%" valign="top" align="right">
-            <form:form action="" method="get">
+            <form:form action="/main/closeShift" method="get">
                 <input type="submit" value="Закрыть смену">
             </form:form>
         </td>
