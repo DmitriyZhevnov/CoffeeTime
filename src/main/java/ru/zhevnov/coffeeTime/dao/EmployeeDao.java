@@ -86,7 +86,8 @@ public class EmployeeDao implements IEmployeeDao {
         if (list.isEmpty()) {
             return null;
         } else {
-            return sessionFactory.getCurrentSession().get(Employee.class, (Integer.parseInt(list.get(0).toString())));
+            Employee employee = sessionFactory.getCurrentSession().get(Employee.class, Integer.parseInt(list.get(0).toString()));
+            return employee;
         }
     }
 }

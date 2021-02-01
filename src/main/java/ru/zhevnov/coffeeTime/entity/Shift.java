@@ -1,6 +1,8 @@
 package ru.zhevnov.coffeeTime.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,19 +17,25 @@ public class Shift {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
-    @Column(name = "date_time_opened")
-    private LocalDateTime dateTimeOpened;
-    @Column(name = "date_time_closed")
-    private LocalDateTime dateTimeClosed;
+    @Column(name = "date_opened")
+    private Date dateOpened;
+    @Column(name = "time_opened")
+    private Time timeOpened;
+    @Column(name = "date_closed")
+    private Date dateClosed;
+    @Column(name = "time_closed")
+    private Time timeClosed;
 
     public Shift() {
     }
 
-    public Shift(CommercialObject commercialObject, Employee employee, LocalDateTime dateTimeOpened, LocalDateTime dateTimeClosed) {
+    public Shift(CommercialObject commercialObject, Employee employee, Date dateOpened, Time timeOpened, Date dateClosed, Time timeClosed) {
         this.commercialObject = commercialObject;
         this.employee = employee;
-        this.dateTimeOpened = dateTimeOpened;
-        this.dateTimeClosed = dateTimeClosed;
+        this.dateOpened = dateOpened;
+        this.timeOpened = timeOpened;
+        this.dateClosed = dateClosed;
+        this.timeClosed = timeClosed;
     }
 
     public int getId() {
@@ -54,20 +62,36 @@ public class Shift {
         this.employee = employee;
     }
 
-    public LocalDateTime getDateTimeOpened() {
-        return dateTimeOpened;
+    public Date getDateOpened() {
+        return dateOpened;
     }
 
-    public void setDateTimeOpened(LocalDateTime dateTimeOpened) {
-        this.dateTimeOpened = dateTimeOpened;
+    public void setDateOpened(Date dateOpened) {
+        this.dateOpened = dateOpened;
     }
 
-    public LocalDateTime getDateTimeClosed() {
-        return dateTimeClosed;
+    public Time getTimeOpened() {
+        return timeOpened;
     }
 
-    public void setDateTimeClosed(LocalDateTime dateTimeClosed) {
-        this.dateTimeClosed = dateTimeClosed;
+    public void setTimeOpened(Time timeOpened) {
+        this.timeOpened = timeOpened;
+    }
+
+    public Date getDateClosed() {
+        return dateClosed;
+    }
+
+    public void setDateClosed(Date dateClosed) {
+        this.dateClosed = dateClosed;
+    }
+
+    public Time getTimeClosed() {
+        return timeClosed;
+    }
+
+    public void setTimeClosed(Time timeClosed) {
+        this.timeClosed = timeClosed;
     }
 
     @Override
@@ -76,8 +100,10 @@ public class Shift {
                 "id=" + id +
                 ", commercialObject=" + commercialObject +
                 ", employee=" + employee +
-                ", dateTimeOpened=" + dateTimeOpened +
-                ", dateTimeClosed=" + dateTimeClosed +
+                ", dateOpened=" + dateOpened +
+                ", timeOpened=" + timeOpened +
+                ", dateClosed=" + dateClosed +
+                ", timeClosed=" + timeClosed +
                 '}';
     }
 }

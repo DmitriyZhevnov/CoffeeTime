@@ -1412,33 +1412,41 @@ SELECT|sys.sys_config:null
       <Position>3</Position>
       <DataType>int|0s</DataType>
     </column>
-    <column id="408" parent="304" name="date_time_opened">
+    <column id="408" parent="304" name="date_opened">
       <Position>4</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>date|0s</DataType>
     </column>
-    <column id="409" parent="304" name="date_time_closed">
+    <column id="409" parent="304" name="time_opened">
       <Position>5</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>time|0s</DataType>
     </column>
-    <index id="410" parent="304" name="shift_commercial_object_id_fk">
+    <column id="410" parent="304" name="date_closed">
+      <Position>6</Position>
+      <DataType>date|0s</DataType>
+    </column>
+    <column id="411" parent="304" name="time_closed">
+      <Position>7</Position>
+      <DataType>time|0s</DataType>
+    </column>
+    <index id="412" parent="304" name="shift_commercial_object_id_fk">
       <ColNames>commercial_object_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="411" parent="304" name="shift_employee_id_fk">
+    <index id="413" parent="304" name="shift_employee_id_fk">
       <ColNames>employee_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="412" parent="304" name="PRIMARY">
+    <key id="414" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="413" parent="304" name="shift_commercial_object_id_fk">
+    <foreign-key id="415" parent="304" name="shift_commercial_object_id_fk">
       <ColNames>commercial_object_id</ColNames>
       <RefTableName>commercial_object</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="414" parent="304" name="shift_employee_id_fk">
+    <foreign-key id="416" parent="304" name="shift_employee_id_fk">
       <ColNames>employee_id</ColNames>
       <RefTableName>employee</RefTableName>
       <RefColNames>id</RefColNames>

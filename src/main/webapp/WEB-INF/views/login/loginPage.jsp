@@ -36,11 +36,15 @@
     <spring:message code="login.password"/>
     <form:input path="password"/>
     <br/>
-    <p><input type="submit" value=ok
+    <p><input type="submit" value=Войти
         <spring:message code="login.enter"/>>
-        <a href="/myStore/registration">
-            <spring:message code="login.register"/>
-        </a></p>
+    </p>
+    <p><select size="1" name="comObj">
+        <option disabled>Выберите ТО</option>
+        <c:forEach items="${commercialObjects}" var="commercialobject">
+            <option value=${commercialobject.id}>${commercialobject.address}</option>
+        </c:forEach>
+    </select></p>
 </form:form>
 </body>
 </html>
