@@ -11,6 +11,57 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
+<style>
+    * {
+        font-family: Areal;
+    }
+
+    .b-container {
+        /*width: 300px;*/
+        /*height: 300px;*/
+        /*background-color: #ccc;*/
+        /*margin: 0px auto;*/
+        /*padding: 10px;*/
+        /*font-size: 30px;*/
+        color: #000000;
+    }
+
+    .b-popup {
+        width:100%;
+        min-height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        position: fixed;
+        top: 0px;
+    }
+
+    .b-popup .b-popup-content {
+        margin: 40px auto 0px auto;
+        width: 250px;
+        height: 150px;
+        padding: 10px;
+        background-color: #c5c5c5;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px #000;
+    }
+</style>
+<script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //Скрыть PopUp при загрузке страницы
+        PopUpHide();
+    });
+
+    //Функция отображения PopUp
+    function PopUpShow() {
+        $("#popup1").show();
+    }
+
+    //Функция скрытия PopUp
+    function PopUpHide() {
+        $("#popup1").hide();
+    }
+</script>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>newOrder</title>
@@ -54,7 +105,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">Новый пользователь</td>
+                    <td colspan="4">
+                        <%--                        Новый пользователь--%>
+                        <div class="b-container">
+                            <a href="javascript:PopUpShow()">Новый клиент</a>
+                        </div>
+                        <div class="b-popup" id="popup1">
+                            <div class="b-popup-content">
+                                <form action="/main/newClient" method="post">
+                                    <p>Имя: <textarea name="name" cols="15" rows="1"></textarea></p>
+                                    <p>Телефон: <textarea name="pNumber" cols="15" rows="1"></textarea></p>
+                                    <p><input type="submit" value=Зарегистрировать></p>
+                                </form>
+                                    <a href="javascript:PopUpHide()">Назад</a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="4">

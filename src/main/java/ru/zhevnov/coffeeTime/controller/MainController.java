@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.zhevnov.coffeeTime.entity.Employee;
 import ru.zhevnov.coffeeTime.service.IBasketService;
 import ru.zhevnov.coffeeTime.service.ICategoryService;
+import ru.zhevnov.coffeeTime.service.IClientService;
 import ru.zhevnov.coffeeTime.service.IShiftService;
 
 @Controller
@@ -20,6 +21,8 @@ public class MainController {
     private IBasketService basketService;
     @Autowired
     private IShiftService shiftService;
+    @Autowired
+    private IClientService clientService;
 
     @GetMapping
     public String showMainPage() {
@@ -63,6 +66,16 @@ public class MainController {
 
     @PostMapping("/newOrder/makeDiscount")
     public String makeDiscount(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, Model model, @ModelAttribute("user") Employee employee) {
+        model.addAttribute("phoneNumber", phoneNumber);
+        model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee, phoneNumber));
+        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
+        return "main/newOrder";
+    }
+
+    @PostMapping("newClient")
+    public String registerNewClient(Model model, @RequestParam(value = "pNumber") String phoneNumber, @RequestParam("name") String name, @ModelAttribute("user") Employee employee){
+        clientService.registerNewClient(name, phoneNumber);
         model.addAttribute("phoneNumber", phoneNumber);
         model.addAttribute("coffees", categoryService.returnAllCoffees());
         model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee, phoneNumber));
