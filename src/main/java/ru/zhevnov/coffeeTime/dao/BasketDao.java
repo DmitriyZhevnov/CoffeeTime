@@ -10,6 +10,7 @@ import ru.zhevnov.coffeeTime.entity.Employee;
 import ru.zhevnov.coffeeTime.entity.Product;
 
 import javax.transaction.Transactional;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,9 +63,24 @@ public class BasketDao implements IBasketDao {
 
     @Transactional
     public List<BasketItem> returnListOfProductsInBasket(Employee employee) {
-        Employee e = sessionFactory.getCurrentSession().get(Employee.class, employee.getId());
         Query query = sessionFactory.getCurrentSession().createQuery("from BasketItem where basket.employee.id =:employeeId");
         query.setParameter("employeeId", employee.getId());
         return query.list();
+    }
+
+    @Transactional
+    public String returnTotalCostOfTheOrder(Employee employee){
+        Query query2 = sessionFactory.getCurrentSession()
+                .createQuery("select sum(p.price * bi.quantity) from Product p join p.basketItems bi join bi.basket ba join ba.employee e where e.id = 2");
+        DecimalFormat f = new DecimalFormat("##.00");
+        return f.format(Double.parseDouble(query2.list().get(0).toString()));
+    }
+
+    @Transactional
+    public String returnTotalCostOfTheOrderWithDiscount(Employee employee){
+        Query query2 = sessionFactory.getCurrentSession()
+                .createQuery("select sum(p.price * bi.quantity) from Product p join p.basketItems bi join bi.basket ba join ba.employee e where e.id = 2");
+        DecimalFormat f = new DecimalFormat("##.00");
+        return f.format(Double.parseDouble(query2.list().get(0).toString()));
     }
 }

@@ -35,36 +35,53 @@ public class MainController {
     }
 
     @GetMapping("/newOrder")
-    public String newOrder(Model model, @ModelAttribute("user") Employee employee) {
+    public String newOrder(@RequestParam("phoneNumber") String phoneNumber, Model model, @ModelAttribute("user") Employee employee) {
+        System.out.println(phoneNumber);
         model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee));
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
         return "main/newOrder";
     }
 
     @GetMapping("/newOrder/add/{idProduct}")
-    public String addProduct(@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
-        basketService.addProductToBasket(employee.getId(), idProduct,1);
+    public String addProduct(@RequestParam("phoneNumber") String phoneNumber, @PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+        System.out.println(phoneNumber);
+        basketService.addProductToBasket(employee.getId(), idProduct, 1);
         model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee));
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
         return "main/newOrder";
     }
+
     @GetMapping("/newOrder/sub/{idProduct}")
     public String subProduct(@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
-        basketService.addProductToBasket(employee.getId(), idProduct,-1);
+        basketService.addProductToBasket(employee.getId(), idProduct, -1);
         model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee));
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
         return "main/newOrder";
     }
+
     @GetMapping("/newOrder/delete/{idProduct}")
     public String deleteProduct(@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
         basketService.deleteItem(employee, idProduct);
         model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee));
+        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
+        return "main/newOrder";
+    }
+
+    @PostMapping("/newOrder/makeDiscount")
+    public String makeDiscount(@RequestParam("phoneNumber") String phoneNumber ,Model model, @ModelAttribute("user") Employee employee) {
+        System.out.println(phoneNumber);
+        model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee));
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee));
         return "main/newOrder";
     }
 
     @GetMapping("/closeShift")
-    public String closeShift(@ModelAttribute("user") Employee employee, Model model){
+    public String closeShift(@ModelAttribute("user") Employee employee, Model model) {
         shiftDao.closeShift(employee);
         return "redirect:/login";
     }

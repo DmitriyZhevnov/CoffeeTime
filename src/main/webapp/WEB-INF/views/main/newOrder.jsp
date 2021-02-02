@@ -8,29 +8,95 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>newOrder</title>
 </head>
-<c:forEach items="${coffees}" var="product">
-    <form action='/main/newOrder/add/${product.id}' method='get'>
-<%--        <input type="hidden" name="idProduct" value=" ${product.id}"/>--%>
-        <input type='submit' value="${product.name}"/>
-    </form>
-</c:forEach>
-<hr/>
-<c:forEach items="${basket}" var="item">
-    ${item.products.get(0).name} - ${item.quantity}
-    <a title="add" href="/main/newOrder/add/${item.products.get(0).id}"><img src="<c:url value="/resources/images/addProduct.png"/>" width="20px" height="20px" class="icon"></a>
-    <a title="sub" href="/main/newOrder/sub/${item.products.get(0).id}"><img src="<c:url value="/resources/images/subProduct.png"/>" width="20px" height="20px" class="icon"></a>
-    <a title="delete" href="/main/newOrder/delete/${item.products.get(0).id}"><img src="<c:url value="/resources/images/delProduct.png"/>" width="20px" height="20px" class="icon"></a>
-    <br/>
-</c:forEach>
-<form style="alignment: left">
+<body>
+<table height="100%" width="100%" border="1">
+    <tr>
+        <td width="30%" valign="top">
+            <table border="1" width="100%" heigth="100%">
+                <c:forEach items="${basket}" var="item">
+                    <tr>
+                        <td width="40%">${item.products.get(0).name}</td>
+                        <td width="10%">${item.quantity}</td>
+                        <td width="40"><a title="add" href="/main/newOrder/add/${item.products.get(0).id}"><img
+                                src="<c:url value="/resources/images/addProduct.png"/>" width="20px" height="20px"
+                                class="icon"></a>
+                            <a title="sub" href="/main/newOrder/sub/${item.products.get(0).id}"><img
+                                    src="<c:url value="/resources/images/subProduct.png"/>" width="20px" height="20px"
+                                    class="icon"></a>
+                            <a title="delete" href="/main/newOrder/delete/${item.products.get(0).id}"><img
+                                    src="<c:url value="/resources/images/delProduct.png"/>" width="20px" height="20px"
+                                    class="icon"></a>
+                        </td>
+                        <td width="10">${item.products.get(0).price}</td>
+                    </tr>
+                </c:forEach>
+                <tr>
+                    <td colspan="4">Кнопка 1</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Итого к оплате: ${totalCost}</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <input type="text" name="phoneNumber">
+                        <form action='/main/newOrder/makeDiscount' method='post'>
+                            <input type='submit' value="Применить скидку"/>
+                        </form>
 
-</form>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">Кнопка 4</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Кнопка 5</td>
+                </tr>
+            </table>
+        </td>
+        <td valign="top">
+            <table width="100%" cellpadding="2" cellspacing="1" border="1">
+                <c:forEach items="${coffees}" var="product">
+                    <tr>
+                        <td>
+                            <form action='/main/newOrder/add/${product.id}' method='get'>
+                                <input type='submit' value="${product.name}"/>
+                            </form>
+                        </td>
+                        <td>кофе цена</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </td>
+        <td valign="top">
+            <table width="100%" cellpadding="2" cellspacing="1" border="1">
+                <tr>
+                    <td>Напитки название</td>
+                    <td>напитки цена</td>
+                </tr>
+            </table>
+            <table width="100%" cellpadding="2" cellspacing="1" border="1">
+                <tr>
+                    <td>Добавки название</td>
+                    <td>Добавки цена</td>
+                </tr>
+            </table>
+        </td>
+        <td valign="top">
+            <table width="100%" cellpadding="2" cellspacing="1" border="1">
+                <tr>
+                    <td>Батончики название</td>
+                    <td>Батончики цена</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

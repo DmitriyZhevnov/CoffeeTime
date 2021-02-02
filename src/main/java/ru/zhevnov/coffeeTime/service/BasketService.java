@@ -33,4 +33,9 @@ public class BasketService implements IBasketService{
     public void deleteItem(Employee employee, int idProduct) {
         basketDao.deleteItem(employee, idProduct);
     }
+
+    @Override
+    public String returnTotalCostOfTheOrder(Employee employee) {
+        return basketDao.returnTotalCostOfTheOrder(employee);
+    }
 }
