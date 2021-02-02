@@ -4,7 +4,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.zhevnov.coffeeTime.entity.CommercialObject;
-import ru.zhevnov.coffeeTime.entity.Shift;
 
 import javax.transaction.Transactional;
 import java.util.List;

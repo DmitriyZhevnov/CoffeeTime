@@ -35,7 +35,7 @@ public class BasketService implements IBasketService{
     }
 
     @Override
-    public String returnTotalCostOfTheOrder(Employee employee) {
-        return basketDao.returnTotalCostOfTheOrder(employee);
+    public String returnTotalCostOfTheOrder(Employee employee, String phoneNumber) {
+        return basketDao.returnTotalCostOfTheOrder(employee, phoneNumber);
     }
 }

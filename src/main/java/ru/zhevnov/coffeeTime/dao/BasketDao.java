@@ -1,6 +1,5 @@
 package ru.zhevnov.coffeeTime.dao;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import ru.zhevnov.coffeeTime.entity.Product;
 
 import javax.transaction.Transactional;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,18 +67,24 @@ public class BasketDao implements IBasketDao {
     }
 
     @Transactional
-    public String returnTotalCostOfTheOrder(Employee employee){
+    public String returnTotalCostOfTheOrder(Employee employee, String phoneNumber) {
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery("select discount from Client where phoneNumber = :phoneNumber");
+        query.setParameter("phoneNumber", phoneNumber);
         Query query2 = sessionFactory.getCurrentSession()
-                .createQuery("select sum(p.price * bi.quantity) from Product p join p.basketItems bi join bi.basket ba join ba.employee e where e.id = 2");
+                .createQuery("select sum(p.price * bi.quantity) from Product p join p.basketItems bi join bi.basket ba join ba.employee e where e.id = :employeeId");
+        query2.setParameter("employeeId", employee.getId());
         DecimalFormat f = new DecimalFormat("##.00");
-        return f.format(Double.parseDouble(query2.list().get(0).toString()));
-    }
+        try {
+            double totalCost = Double.parseDouble(query2.list().get(0).toString());
+            if (query.list().isEmpty()) {
+                return f.format(totalCost);
+            } else {
+                return f.format(totalCost - (totalCost / 100 * Double.parseDouble(query.list().get(0).toString())));
+            }
+        } catch (NullPointerException e){
+            return "0";
+        }
 
-    @Transactional
-    public String returnTotalCostOfTheOrderWithDiscount(Employee employee){
-        Query query2 = sessionFactory.getCurrentSession()
-                .createQuery("select sum(p.price * bi.quantity) from Product p join p.basketItems bi join bi.basket ba join ba.employee e where e.id = 2");
-        DecimalFormat f = new DecimalFormat("##.00");
-        return f.format(Double.parseDouble(query2.list().get(0).toString()));
     }
 }

@@ -1,10 +1,10 @@
-package ru.zhevnov.coffeeTime.dao;
+package ru.zhevnov.coffeeTime.service;
 
 import ru.zhevnov.coffeeTime.entity.CommercialObject;
 
 import java.util.List;
 
-public interface ICommercialObjectDao {
+public interface ICommercialObjectService {
     List<CommercialObject> returnListOdCommercialObjects();
     CommercialObject returnCommercialObjectById(int commercialObjectId);
 }

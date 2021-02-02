@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.zhevnov.coffeeTime.dao.ICommercialObjectDao;
-import ru.zhevnov.coffeeTime.dao.IShiftDao;
-import ru.zhevnov.coffeeTime.entity.CommercialObject;
 import ru.zhevnov.coffeeTime.entity.Employee;
+import ru.zhevnov.coffeeTime.service.ICommercialObjectService;
 import ru.zhevnov.coffeeTime.service.IEmployeeService;
+import ru.zhevnov.coffeeTime.service.IShiftService;
 
 @Controller
 @RequestMapping("/login")
@@ -17,13 +16,10 @@ public class LoginController {
 
     @Autowired
     private IEmployeeService employeeService;
-
-    ////Изменить! Сделать сервис!!
     @Autowired
-    private IShiftDao shiftDao;
+    private IShiftService shiftService;
     @Autowired
-    private ICommercialObjectDao commercialObjectDao;
-    ///
+    private ICommercialObjectService commercialObjectService;
 
     @ModelAttribute("user")
     public Employee newEmployee() {
@@ -32,7 +28,7 @@ public class LoginController {
 
     @GetMapping
     public String showLoginPage(Model model) {
-        model.addAttribute("commercialObjects", commercialObjectDao.returnListOdCommercialObjects());
+        model.addAttribute("commercialObjects", commercialObjectService.returnListOdCommercialObjects());
         return "login/loginPage";
     }
 
@@ -42,7 +38,7 @@ public class LoginController {
         if (employee == null) {
             return "страница не существующего";
         }
-        shiftDao.checkOrOpenTheShift(employee, objectId);
+        shiftService.checkOrOpenTheShift(employee, objectId);
         model.addAttribute("user", employee);
         return "redirect:/main";
     }

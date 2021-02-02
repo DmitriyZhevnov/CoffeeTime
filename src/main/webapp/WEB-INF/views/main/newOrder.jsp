@@ -38,25 +38,28 @@
                     </tr>
                 </c:forEach>
                 <tr>
-                    <td colspan="4">Кнопка 1</td>
+                    <td colspan="4">
+                        <form action='/main/newOrder/makeDiscount' method='post'>
+                            <input type="text" name="phoneNumber" value="${phoneNumber}">
+                            <input type='submit' value="Применить скидку"/>
+                        </form>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="4">Итого к оплате: ${totalCost}</td>
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <input type="text" name="phoneNumber">
-                        <form action='/main/newOrder/makeDiscount' method='post'>
-                            <input type='submit' value="Применить скидку"/>
-                        </form>
-
+                        оплатить
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">Кнопка 4</td>
+                    <td colspan="4">Новый пользователь</td>
                 </tr>
                 <tr>
-                    <td colspan="4">Кнопка 5</td>
+                    <td colspan="4">
+                        <a href="/main">Назад</a>
+                    </td>
                 </tr>
             </table>
         </td>
