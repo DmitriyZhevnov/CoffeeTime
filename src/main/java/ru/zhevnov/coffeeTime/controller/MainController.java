@@ -88,4 +88,10 @@ public class MainController {
         shiftService.closeShift(employee);
         return "redirect:/login";
     }
+
+    @PostMapping("/pay")
+    public String payAndMakeOrder(@RequestParam("paymentType") String name){
+        System.out.println(name);
+        return null;
+    }
 }

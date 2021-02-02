@@ -49,16 +49,22 @@
 <script>
     $(document).ready(function () {
         //Скрыть PopUp при загрузке страницы
-        PopUpHide();
+        PopUpPayHide();
+        PopUpNewUserHide();
     });
 
     //Функция отображения PopUp
-    function PopUpShow() {
+    function PopUpNewUserShow() {
+        $("#popup2").show();
+    }
+    function PopUpPayShow() {
         $("#popup1").show();
     }
-
     //Функция скрытия PopUp
-    function PopUpHide() {
+    function PopUpNewUserHide() {
+        $("#popup2").hide();
+    }
+    function PopUpPayHide() {
         $("#popup1").hide();
     }
 </script>
@@ -101,23 +107,39 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        оплатить
+<%--                                                                                    Оплатить--%>
+                        <div class="b-container">
+                            <a href="javascript:PopUpPayShow()">Оплатить</a>
+                        </div>
+                        <div class="b-popup" id="popup1">
+                            <div class="b-popup-content">
+                                <form action="/main/pay" method="post">
+                                    <input type="hidden" name="paymentType" value="cash">
+                                    <p><input type="submit" value=Наличные></p>
+                                </form>
+                                <form action="/main/pay" method="post">
+                                    <input type="hidden" name="paymentType" value="card">
+                                    <p><input type="submit" value=Безналичные></p>
+                                </form>
+                                <a href="javascript:PopUpPayHide()">Назад</a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <%--                        Новый пользователь--%>
+                        <%--                                                            Новый пользователь--%>
                         <div class="b-container">
-                            <a href="javascript:PopUpShow()">Новый клиент</a>
+                            <a href="javascript:PopUpNewUserShow()">Новый клиент</a>
                         </div>
-                        <div class="b-popup" id="popup1">
+                        <div class="b-popup" id="popup2">
                             <div class="b-popup-content">
                                 <form action="/main/newClient" method="post">
                                     <p>Имя: <textarea name="name" cols="15" rows="1"></textarea></p>
                                     <p>Телефон: <textarea name="pNumber" cols="15" rows="1"></textarea></p>
                                     <p><input type="submit" value=Зарегистрировать></p>
                                 </form>
-                                    <a href="javascript:PopUpHide()">Назад</a>
+                                    <a href="javascript:PopUpNewUserHide()">Назад</a>
                             </div>
                         </div>
                     </td>
