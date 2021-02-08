@@ -7,4 +7,5 @@ import java.util.List;
 public interface ICommercialObjectDao {
     List<CommercialObject> returnListOdCommercialObjects();
     CommercialObject returnCommercialObjectById(int commercialObjectId);
+    void submitItemsFromCommercialObjectsStorage(int idEmployee);
 }

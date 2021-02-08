@@ -13,7 +13,7 @@ public class Client {
     private String name;
     @Column(name = "phone_number")
     private String phoneNumber;
-    private double discount;
+    private int discount;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
@@ -21,7 +21,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(String name, String phoneNumber, double discount) {
+    public Client(String name, String phoneNumber, int discount) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.discount = discount;
@@ -51,11 +51,11 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 

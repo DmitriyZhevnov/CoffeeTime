@@ -5,19 +5,21 @@ import org.springframework.stereotype.Service;
 import ru.zhevnov.coffeeTime.dao.IShiftDao;
 import ru.zhevnov.coffeeTime.entity.Employee;
 
+import javax.transaction.Transactional;
+
 @Service
 public class ShiftService implements IShiftService {
 
     @Autowired
     private IShiftDao shiftDao;
 
-    @Override
-    public void checkOrOpenTheShift(Employee employee, int commercialObjectId) {
-        shiftDao.checkOrOpenTheShift(employee, commercialObjectId);
+    @Transactional
+    public void checkOrOpenTheShift(int idEmployee, int commercialObjectId) {
+        shiftDao.checkOrOpenTheShift(idEmployee, commercialObjectId);
     }
 
-    @Override
-    public void closeShift(Employee employee) {
-        shiftDao.closeShift(employee);
+    @Transactional
+    public void closeShift(int idEmployee) {
+        shiftDao.closeShift(idEmployee);
     }
 }

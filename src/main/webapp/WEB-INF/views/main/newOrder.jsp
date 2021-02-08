@@ -79,9 +79,9 @@
             <table border="1" width="100%" heigth="100%">
                 <c:forEach items="${basket}" var="item">
                     <tr>
-                        <td width="40%">${item.products.get(0).name}</td>
+                        <td width="55%">${item.products.get(0).name}</td>
                         <td width="10%">${item.quantity}</td>
-                        <td width="40"><a title="add" href="/main/newOrder/add/${item.products.get(0).id}"><img
+                        <td width="25%"><a title="add" href="/main/newOrder/add/${item.products.get(0).id}"><img
                                 src="<c:url value="/resources/images/addProduct.png"/>" width="20px" height="20px"
                                 class="icon"></a>
                             <a title="sub" href="/main/newOrder/sub/${item.products.get(0).id}"><img
@@ -91,7 +91,7 @@
                                     src="<c:url value="/resources/images/delProduct.png"/>" width="20px" height="20px"
                                     class="icon"></a>
                         </td>
-                        <td width="10">${item.products.get(0).price}</td>
+                        <td width="10%">${item.products.get(0).price}</td>
                     </tr>
                 </c:forEach>
                 <tr>
@@ -166,7 +166,7 @@
             </table>
         </td>
         <td valign="top">
-            <table width="100%" cellpadding="2" cellspacing="1" border="1">
+            <table  width="100%" cellpadding="2" cellspacing="1" border="1">
                 <tr>
                     <td>Напитки название</td>
                     <td>напитки цена</td>

@@ -22,4 +22,9 @@ public class CommercialObjectService implements ICommercialObjectService {
     public CommercialObject returnCommercialObjectById(int commercialObjectId) {
         return commercialObjectDao.returnCommercialObjectById(commercialObjectId);
     }
+
+    @Override
+    public void submitItemsFromCommercialObjectsStorage(int idEmployee) {
+        commercialObjectDao.submitItemsFromCommercialObjectsStorage(idEmployee);
+    }
 }

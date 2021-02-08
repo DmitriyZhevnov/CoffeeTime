@@ -21,15 +21,27 @@ public class ShiftDao implements IShiftDao {
     @Autowired
     private ICommercialObjectService commercialObjectService;
 
+    @Transactional
+    public Shift returnOpenedShiftByEmployeeId(int idEmployee){
+//        sessionFactory.getCurrentSession().clear();
+        Date date = new Date(System.currentTimeMillis());
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery("select id from Shift where employee.id = :idEmployee and dateOpened = :dateOpened and dateClosed = null");
+        query.setParameter("dateOpened", date);
+        query.setParameter("idEmployee", idEmployee);
+        List list = query.list();
+        Shift shift = sessionFactory.getCurrentSession().get(Shift.class, Integer.parseInt(list.get(0).toString()));
+        return shift;
+    }
 
     @Transactional
-    public void closeShift(Employee employee) {
+    public void closeShift(int idEmployee) {
         Date date = new Date(System.currentTimeMillis());
         Time time = new Time(System.currentTimeMillis());
         Query query = sessionFactory.getCurrentSession().createQuery("select id from Shift where" +
                 " employee.id = :idEmployee and dateOpened = :dateOpened and dateClosed = null");
         query.setParameter("dateOpened", date);
-        query.setParameter("idEmployee", employee.getId());
+        query.setParameter("idEmployee", idEmployee);
         List list = query.list();
         if (!list.isEmpty()) {
             Shift shift = sessionFactory.getCurrentSession().get(Shift.class, Integer.parseInt(list.get(0).toString()));
@@ -39,22 +51,23 @@ public class ShiftDao implements IShiftDao {
     }
 
     @Transactional
-    public void checkOrOpenTheShift(Employee employee, int commercialObjectId) {
+    public void checkOrOpenTheShift(int idEmployee, int commercialObjectId) {
         Time time = new Time(System.currentTimeMillis());
         Date date = new Date(System.currentTimeMillis());
         Query query = sessionFactory.getCurrentSession().createQuery("select id from Shift where" +
                 " employee.id = :idEmployee and dateOpened = :dateOpened and dateClosed = null");
         query.setParameter("dateOpened", date);
-        query.setParameter("idEmployee", employee.getId());
+        query.setParameter("idEmployee", idEmployee);
         List list = query.list();
         if (list.isEmpty()) {
             Shift shift = new Shift();
-            shift.setEmployee(employee);
+            shift.setEmployee(sessionFactory.getCurrentSession().get(Employee.class, idEmployee));
             shift.setDateOpened(date);
             shift.setTimeOpened(time);
             shift.setCommercialObject(commercialObjectService.returnCommercialObjectById(commercialObjectId));
             sessionFactory.getCurrentSession().save(shift);
         }
+//        sessionFactory.getCurrentSession().clear();
     }
 
 }

@@ -1,18 +1,23 @@
 package ru.zhevnov.coffeeTime.entity;
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "date")
-    private Date dateOrder;
+    @Column(name = "date_order")
+    private Date date;
+    @Column(name = "time_order")
+    private Time time;
+    @Column(name = "final_price")
+    private double finalPrice;
+    private int discount;
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
@@ -29,8 +34,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(Date dateOrder, Employee employee, Client client, String paymentType, String info) {
-        this.dateOrder = dateOrder;
+    public Order(Date date, Time time, double finalPrice, int discount, Employee employee, Client client, String paymentType, String info) {
+        this.date = date;
+        this.time = time;
+        this.finalPrice = finalPrice;
+        this.discount = discount;
         this.employee = employee;
         this.client = client;
         this.paymentType = paymentType;
@@ -45,12 +53,36 @@ public class Order {
         this.id = id;
     }
 
-    public Date getDateOrder() {
-        return dateOrder;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDateOrder(Date dateOrder) {
-        this.dateOrder = dateOrder;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     public Employee getEmployee() {
@@ -97,7 +129,10 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", dateOrder=" + dateOrder +
+                ", date=" + date +
+                ", time=" + time +
+                ", finalPrice=" + finalPrice +
+                ", discount=" + discount +
                 ", employee=" + employee +
                 ", client=" + client +
                 ", paymentType='" + paymentType + '\'' +

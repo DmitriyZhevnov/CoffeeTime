@@ -38,7 +38,7 @@ public class LoginController {
         if (employee == null) {
             return "страница не существующего";
         }
-        shiftService.checkOrOpenTheShift(employee, objectId);
+        shiftService.checkOrOpenTheShift(employee.getId(), objectId);
         model.addAttribute("user", employee);
         return "redirect:/main";
     }

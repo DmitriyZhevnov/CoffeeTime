@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface IBasketService {
     void addProductToBasket(int personId, int productId, int count);
-    List<BasketItem> returnListOfProductsInBasket(Employee employee);
-    void updateCount(Employee employee, int idProduct, int count);
-    void deleteItem(Employee employee, int idProduct);
-    String returnTotalCostOfTheOrder(Employee employee, String phoneNumber);
+    List<BasketItem> returnListOfProductsInBasket(int idEmployee);
+    void updateCount(int idEmployee, int idProduct, int count);
+    void deleteItem(int idEmployee, int idProduct);
+    String returnTotalCostOfTheOrder(int idEmployee, String phoneNumber);
+    void cleanBasket(int idEmployee);
 }

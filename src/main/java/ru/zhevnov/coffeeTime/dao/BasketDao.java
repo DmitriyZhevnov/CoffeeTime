@@ -10,6 +10,7 @@ import ru.zhevnov.coffeeTime.entity.Product;
 
 import javax.transaction.Transactional;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class BasketDao implements IBasketDao {
         }
     }
 
-    public void updateCount(Employee employee1, int idProduct, int count) {
+    public void updateCount(int idEmployee, int idProduct, int count) {
 //        try (Session session = sessionFactory.openSession()) {
 //            session.beginTransaction();
 //            Employee employee = session.get(Employee.class, employee1.getId());
@@ -48,8 +49,8 @@ public class BasketDao implements IBasketDao {
     }
 
     @Transactional
-    public void deleteItem(Employee employee1, int idProduct) {
-        Employee employee = sessionFactory.getCurrentSession().get(Employee.class, employee1.getId());
+    public void deleteItem(int idEmployee, int idProduct) {
+        Employee employee = sessionFactory.getCurrentSession().get(Employee.class, idEmployee);
         BasketItem basketItem = employee.getBasket().getBasketItems().stream().filter(s -> s.getProducts().get(0).getId() == idProduct).collect(Collectors.toList()).get(0);
         Product product = sessionFactory.getCurrentSession().get(Product.class, idProduct);
         employee.getBasket().getBasketItems().remove(basketItem);
@@ -60,27 +61,38 @@ public class BasketDao implements IBasketDao {
     }
 
     @Transactional
-    public List<BasketItem> returnListOfProductsInBasket(Employee employee) {
+    public void cleanBasket(int idEmployee){
+        Employee employee = sessionFactory.getCurrentSession().get(Employee.class, idEmployee);
+        while (!employee.getBasket().getBasketItems().isEmpty()){
+            deleteItem(employee.getId(), employee.getBasket().getBasketItems().get(0).getProducts().get(0).getId());
+        }
+    }
+
+    @Transactional
+    public List<BasketItem> returnListOfProductsInBasket(int idEmployee) {
         Query query = sessionFactory.getCurrentSession().createQuery("from BasketItem where basket.employee.id =:employeeId");
-        query.setParameter("employeeId", employee.getId());
+        query.setParameter("employeeId", idEmployee);
         return query.list();
     }
 
     @Transactional
-    public String returnTotalCostOfTheOrder(Employee employee, String phoneNumber) {
+    public String returnTotalCostOfTheOrder(int idEmployee, String phoneNumber) {
         Query query = sessionFactory.getCurrentSession()
                 .createQuery("select discount from Client where phoneNumber = :phoneNumber");
         query.setParameter("phoneNumber", phoneNumber);
         Query query2 = sessionFactory.getCurrentSession()
                 .createQuery("select sum(p.price * bi.quantity) from Product p join p.basketItems bi join bi.basket ba join ba.employee e where e.id = :employeeId");
-        query2.setParameter("employeeId", employee.getId());
-        DecimalFormat f = new DecimalFormat("##.00");
+        query2.setParameter("employeeId", idEmployee);
+        DecimalFormat format = new DecimalFormat("##.00");
+        DecimalFormatSymbols dfs = format.getDecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        format.setDecimalFormatSymbols(dfs);
         try {
             double totalCost = Double.parseDouble(query2.list().get(0).toString());
             if (query.list().isEmpty()) {
-                return f.format(totalCost);
+                return format.format(totalCost);
             } else {
-                return f.format(totalCost - (totalCost / 100 * Double.parseDouble(query.list().get(0).toString())));
+                return format.format(totalCost - (totalCost / 100 * Double.parseDouble(query.list().get(0).toString())));
             }
         } catch (NullPointerException e){
             return "0";

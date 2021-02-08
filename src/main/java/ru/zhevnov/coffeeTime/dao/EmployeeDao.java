@@ -6,11 +6,16 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.zhevnov.coffeeTime.entity.Basket;
+import ru.zhevnov.coffeeTime.entity.Client;
 import ru.zhevnov.coffeeTime.entity.Employee;
+import ru.zhevnov.coffeeTime.entity.Order;
+import ru.zhevnov.coffeeTime.service.IClientService;
 import ru.zhevnov.coffeeTime.service.IEmployeeService;
 import ru.zhevnov.coffeeTime.service.IRoleService;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -19,6 +24,12 @@ public class EmployeeDao implements IEmployeeDao {
 
     private SessionFactory sessionFactory;
     private IRoleService roleService;
+
+    /// удалить
+    @Autowired
+    private IClientService clientService;
+    //////// удалить
+
 
     @Autowired
     public EmployeeDao(SessionFactory sessionFactory, IRoleService roleService) {
@@ -37,18 +48,18 @@ public class EmployeeDao implements IEmployeeDao {
     }
 
     public boolean checkLoginForExist(String login) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            Query query = session.createQuery("select id from Employee where login = :login");
-            query.setParameter("login", login);
-            List list = query.list();
-            session.getTransaction().commit();
-            if (list.isEmpty()) {
-                return false;
-            } else {
+//        try (Session session = sessionFactory.openSession()) {
+//            session.beginTransaction();
+//            Query query = session.createQuery("select id from Employee where login = :login");
+//            query.setParameter("login", login);
+//            List list = query.list();
+//            session.getTransaction().commit();
+//            if (list.isEmpty()) {
+//                return false;
+//            } else {
                 return true;
-            }
-        }
+//            }
+//        }
     }
 
     public void updateEmployee(Employee employee) {

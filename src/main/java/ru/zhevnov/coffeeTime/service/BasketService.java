@@ -20,22 +20,27 @@ public class BasketService implements IBasketService{
     }
 
     @Override
-    public List<BasketItem> returnListOfProductsInBasket(Employee employee) {
-        return basketDao.returnListOfProductsInBasket(employee);
+    public List<BasketItem> returnListOfProductsInBasket(int idEmployee) {
+        return basketDao.returnListOfProductsInBasket(idEmployee);
     }
 
     @Override
-    public void updateCount(Employee employee1, int idProduct, int count) {
-        basketDao.updateCount(employee1, idProduct, count);
+    public void updateCount(int idEmployee, int idProduct, int count) {
+        basketDao.updateCount(idEmployee, idProduct, count);
     }
 
     @Override
-    public void deleteItem(Employee employee, int idProduct) {
-        basketDao.deleteItem(employee, idProduct);
+    public void deleteItem(int idEmployee, int idProduct) {
+        basketDao.deleteItem(idEmployee, idProduct);
     }
 
     @Override
-    public String returnTotalCostOfTheOrder(Employee employee, String phoneNumber) {
-        return basketDao.returnTotalCostOfTheOrder(employee, phoneNumber);
+    public String returnTotalCostOfTheOrder(int idEmployee, String phoneNumber) {
+        return basketDao.returnTotalCostOfTheOrder(idEmployee, phoneNumber);
+    }
+
+    @Override
+    public void cleanBasket(int idEmployee) {
+        basketDao.cleanBasket(idEmployee);
     }
 }
