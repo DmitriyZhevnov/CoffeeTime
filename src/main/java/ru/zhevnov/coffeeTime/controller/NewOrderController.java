@@ -39,22 +39,22 @@ public class NewOrderController {
 
     @GetMapping("/add/{idProduct}")
     public String addProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, @PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
-        basketService.addProductToBasket(employee.getId(), idProduct, 1);
+        basketService.addProductToBasket(employee.getId(), idProduct);
         model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
         return "main/newOrder/newOrder";
     }
 
     @GetMapping("/sub/{idProduct}")
-    public String subProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber,@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
-        basketService.addProductToBasket(employee.getId(), idProduct, -1);
-        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(),phoneNumber));
+    public String subProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, @PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+        basketService.submitProductInBasket(employee.getId(), idProduct);
+        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
         return "main/newOrder/newOrder";
     }
 
     @GetMapping("/delete/{idProduct}")
-    public String deleteProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber,@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+    public String deleteProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, @PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
         basketService.deleteItem(employee.getId(), idProduct);
         model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
@@ -70,7 +70,7 @@ public class NewOrderController {
     }
 
     @PostMapping("/newClient")
-    public String registerNewClient(Model model, @RequestParam(value = "pNumber") String phoneNumber, @RequestParam("name") String name, @ModelAttribute("user") Employee employee){
+    public String registerNewClient(Model model, @RequestParam(value = "pNumber") String phoneNumber, @RequestParam("name") String name, @ModelAttribute("user") Employee employee) {
         clientService.registerNewClient(name, phoneNumber);
         model.addAttribute("phoneNumber", phoneNumber);
         model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
@@ -80,9 +80,13 @@ public class NewOrderController {
 
     @PostMapping("/pay")
     public String payAndMakeOrder(@RequestParam("paymentType") String paymentType, @ModelAttribute("user") Employee employee,
-                                  @ModelAttribute("phoneNumber") String phoneNumber, Model model){
+                                  @ModelAttribute("phoneNumber") String phoneNumber,
+                                  @RequestParam(value = "cashAmount", required = false) String cash,
+                                  @RequestParam(value = "cardAmount", required = false) String card, Model model) {
+        System.out.println(card);
+        System.out.println(cash);
         commercialObjectService.submitItemsFromCommercialObjectsStorage(employee.getId());
-        orderService.saveNewOrder(employee.getId(), phoneNumber, paymentType);
+        orderService.saveNewOrder(employee.getId(), phoneNumber, paymentType, card, cash);
         model.addAttribute("phoneNumber", "");
         model.addAttribute("coffees", categoryService.returnAllCoffees());
         model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));

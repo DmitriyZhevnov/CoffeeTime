@@ -13,7 +13,7 @@ public class OrderService implements IOrderService {
     IOrderDao orderDao;
 
     @Transactional
-    public void saveNewOrder(int idEmployee, String phoneNumber, String paymentType) {
-        orderDao.saveNewOrder(idEmployee, phoneNumber, paymentType);
+    public void saveNewOrder(int idEmployee, String phoneNumber, String paymentType, String card, String cash) {
+        orderDao.saveNewOrder(idEmployee, phoneNumber, paymentType, card, cash);
     }
 }

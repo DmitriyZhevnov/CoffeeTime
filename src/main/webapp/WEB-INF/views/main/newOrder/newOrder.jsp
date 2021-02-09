@@ -27,7 +27,7 @@
     }
 
     .b-popup {
-        width:100%;
+        width: 100%;
         min-height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
         overflow: hidden;
@@ -51,21 +51,41 @@
         //Скрыть PopUp при загрузке страницы
         PopUpPayHide();
         PopUpNewUserHide();
+        PopUpDifferentTypeOfPaymentHide();
     });
 
     //Функция отображения PopUp
     function PopUpNewUserShow() {
         $("#popup2").show();
     }
+
     function PopUpPayShow() {
         $("#popup1").show();
     }
+
+    function PopUpDifferentTypeOfPaymentShow() {
+        $("#popup3").show();
+    }
+
     //Функция скрытия PopUp
     function PopUpNewUserHide() {
         $("#popup2").hide();
     }
+
     function PopUpPayHide() {
         $("#popup1").hide();
+    }
+
+    function PopUpDifferentTypeOfPaymentHide() {
+        $("#popup3").hide();
+    }
+    function subForSecond(){
+        var secondTextArea = document.getElementById('second');
+        document.getElementById('first').value = (${totalCost} - secondTextArea.value).toFixed(2);
+    }
+    function subForFirst(){
+        var firstTextArea = document.getElementById('first');
+        document.getElementById('second').value = (${totalCost} - firstTextArea.value).toFixed(2);
     }
 </script>
 <head>
@@ -107,7 +127,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-<%--                                                                                    Оплатить--%>
+                        <%--                                                                                    Оплатить--%>
                         <div class="b-container">
                             <a href="javascript:PopUpPayShow()">Оплатить</a>
                         </div>
@@ -121,7 +141,20 @@
                                     <input type="hidden" name="paymentType" value="card">
                                     <p><input type="submit" value=Безналичные></p>
                                 </form>
+                                <a href="javascript:PopUpDifferentTypeOfPaymentShow()">Раздельный тип оплаты</a>
+                                <br/>
                                 <a href="javascript:PopUpPayHide()">Назад</a>
+                            </div>
+                        </div>
+                        <div class="b-popup" id="popup3">
+                            <div class="b-popup-content">
+                                <form action="/newOrder/pay" method="post">
+                                    <input type="hidden" name="paymentType" value="different">
+                                    <p>Наличные: <textarea id="first" name="cashAmount" oninput="subForFirst()" cols="15" rows="1">${totalCost}</textarea></p>
+                                    <p>Карты: <textarea id="second" oninput="subForSecond()" name="cardAmount" cols="15" rows="1"></textarea></p>
+                                    <p><input type="submit" value=Оплатить></p>
+                                </form>
+                                <a href="javascript:PopUpDifferentTypeOfPaymentHide()">Назад</a>
                             </div>
                         </div>
                     </td>
@@ -139,7 +172,7 @@
                                     <p>Телефон: <textarea name="pNumber" cols="15" rows="1"></textarea></p>
                                     <p><input type="submit" value=Зарегистрировать></p>
                                 </form>
-                                    <a href="javascript:PopUpNewUserHide()">Назад</a>
+                                <a href="javascript:PopUpNewUserHide()">Назад</a>
                             </div>
                         </div>
                     </td>
@@ -160,7 +193,7 @@
                                 <input type='submit' value="${product.name}"/>
                             </form>
                         </td>
-                        <td>кофе цена</td>
+                        <td>${product.price}</td>
                     </tr>
                 </c:forEach>
             </table>
@@ -174,7 +207,7 @@
                                 <input type='submit' value="${product.name}"/>
                             </form>
                         </td>
-                        <td>кофе цена</td>
+                        <td>${product.price}</td>
                     </tr>
                 </c:forEach>
             </table>
@@ -186,7 +219,7 @@
                                 <input type='submit' value="${product.name}"/>
                             </form>
                         </td>
-                        <td>кофе цена</td>
+                        <td>${product.price}</td>
                     </tr>
                 </c:forEach>
             </table>
@@ -200,7 +233,7 @@
                                 <input type='submit' value="${product.name}"/>
                             </form>
                         </td>
-                        <td>кофе цена</td>
+                        <td>${product.price}</td>
                     </tr>
                 </c:forEach>
             </table>

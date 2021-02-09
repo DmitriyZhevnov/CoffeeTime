@@ -15,8 +15,8 @@ public class BasketService implements IBasketService{
     private IBasketDao basketDao;
 
     @Override
-    public void addProductToBasket(int personId, int productId, int count) {
-        basketDao.addProductToBasket(personId, productId, count);
+    public void addProductToBasket(int personId, int productId) {
+        basketDao.addProductToBasket(personId, productId);
     }
 
     @Override
@@ -42,5 +42,10 @@ public class BasketService implements IBasketService{
     @Override
     public void cleanBasket(int idEmployee) {
         basketDao.cleanBasket(idEmployee);
+    }
+
+    @Override
+    public void submitProductInBasket(int employeeId, int productId) {
+        basketDao.submitProductInBasket(employeeId, productId);
     }
 }

@@ -25,8 +25,7 @@ public class OrderDao implements IOrderDao {
     private ICommercialObjectService commercialObjectService;
 
     @Transactional
-    public void saveNewOrder(int idEmployee, String phoneNumber, String paymentType) {
-//        sessionFactory.getCurrentSession().clear();
+    public void saveNewOrder(int idEmployee, String phoneNumber, String paymentType, String card, String cash) {
         Employee employee = sessionFactory.getCurrentSession().get(Employee.class, idEmployee);
         if (!employee.getBasket().getBasketItems().isEmpty()) {
             Date date = new Date(System.currentTimeMillis());
@@ -35,13 +34,29 @@ public class OrderDao implements IOrderDao {
             double totalCostOfOrder = Double.parseDouble(basketService.returnTotalCostOfTheOrder(employee.getId(), ""));
             Order newOrder;
             if (client == null) {
-                newOrder = new Order(date, time, totalCostOfOrder, 0, employee, null, paymentType, null);
-                sessionFactory.getCurrentSession().save(newOrder);
+                if (paymentType.equals("cash")) {
+                    newOrder = new Order(date, time, totalCostOfOrder, 0.0, 0, employee, null, paymentType, null);
+                } else if (paymentType.equals("card")) {
+                    newOrder = new Order(date, time, 0.0, totalCostOfOrder, 0, employee, null, paymentType, null);
+                } else {
+                    double cashAmount = Double.parseDouble(cash);
+                    double cardAmount = Double.parseDouble(card);
+                    newOrder = new Order(date, time, cashAmount, cardAmount, 0, employee, null, paymentType, null);
+                }
             } else {
-                newOrder = new Order(date, time, totalCostOfOrder, client.getDiscount(), employee, client, paymentType, "");
+                if (paymentType.equals("cash")) {
+                    newOrder = new Order(date, time, totalCostOfOrder, 0.0, client.getDiscount(), employee, client, paymentType, null);
+                } else if (paymentType.equals("card")) {
+                    newOrder = new Order(date, time, 0.0, totalCostOfOrder, client.getDiscount(), employee, client, paymentType, null);
+                } else {
+                    double cashAmount = Double.parseDouble(cash);
+                    double cardAmount = Double.parseDouble(card);
+                    newOrder = new Order(date, time, cashAmount, cardAmount, 0, employee, client, paymentType, null);
+                }
                 clientService.addOnePercentToDiscount(client.getId());
-                sessionFactory.getCurrentSession().save(newOrder);
             }
+            System.out.println(newOrder);
+            sessionFactory.getCurrentSession().save(newOrder);
             putProductsInOrderItemFromBasketItem(employee.getId(), newOrder.getId());
             basketService.cleanBasket(employee.getId());
         }
@@ -49,10 +64,10 @@ public class OrderDao implements IOrderDao {
 
 
     @Transactional
-    public void putProductsInOrderItemFromBasketItem(int employeeId, int orderId){
+    public void putProductsInOrderItemFromBasketItem(int employeeId, int orderId) {
         Employee employee = sessionFactory.getCurrentSession().get(Employee.class, employeeId);
         Order order = sessionFactory.getCurrentSession().get(Order.class, orderId);
-        for(BasketItem basketItem : employee.getBasket().getBasketItems()){
+        for (BasketItem basketItem : employee.getBasket().getBasketItems()) {
             Product product = sessionFactory.getCurrentSession().get(Product.class, basketItem.getProducts().get(0).getId());
             OrderItem orderItem = new OrderItem();
             orderItem.setProducts(basketItem.getProducts());

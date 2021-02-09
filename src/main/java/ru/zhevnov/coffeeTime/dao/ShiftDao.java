@@ -23,7 +23,6 @@ public class ShiftDao implements IShiftDao {
 
     @Transactional
     public Shift returnOpenedShiftByEmployeeId(int idEmployee){
-//        sessionFactory.getCurrentSession().clear();
         Date date = new Date(System.currentTimeMillis());
         Query query = sessionFactory.getCurrentSession()
                 .createQuery("select id from Shift where employee.id = :idEmployee and dateOpened = :dateOpened and dateClosed = null");

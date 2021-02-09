@@ -21,19 +21,32 @@ public class BasketDao implements IBasketDao {
     private SessionFactory sessionFactory;
 
     @Transactional
-    public void addProductToBasket(int employeeId, int productId, int count) {
+    public void addProductToBasket(int employeeId, int productId) {
         Employee employee = sessionFactory.getCurrentSession().get(Employee.class, employeeId);
         if (employee.getBasket().getBasketItems().stream().anyMatch(basketItem -> basketItem.getProducts().get(0).getId() == productId)) {
             BasketItem basketItem = employee.getBasket().getBasketItems().stream().filter(s -> s.getProducts().get(0).getId() == productId).collect(Collectors.toList()).get(0);
             int firstCountInBasketItem = basketItem.getQuantity();
-            basketItem.setQuantity(firstCountInBasketItem + count);
+            basketItem.setQuantity(firstCountInBasketItem + 1);
             sessionFactory.getCurrentSession().update(basketItem);
         } else {
             Product product = sessionFactory.getCurrentSession().get(Product.class, productId);
-            BasketItem basketItem = new BasketItem(employee.getBasket(), count);
+            BasketItem basketItem = new BasketItem(employee.getBasket(), 1);
             product.getBasketItems().add(basketItem);
             sessionFactory.getCurrentSession().update(product);
             sessionFactory.getCurrentSession().save(basketItem);
+        }
+    }
+
+    @Transactional
+    public void submitProductInBasket(int employeeId, int productId) {
+        Employee employee = sessionFactory.getCurrentSession().get(Employee.class, employeeId);
+        BasketItem basketItem = employee.getBasket().getBasketItems().stream().filter(s -> s.getProducts().get(0).getId() == productId).collect(Collectors.toList()).get(0);
+        int firstCountInBasketItem = basketItem.getQuantity();
+        if (firstCountInBasketItem == 1){
+            deleteItem(employeeId, productId);
+        } else {
+            basketItem.setQuantity(firstCountInBasketItem - 1);
+            sessionFactory.getCurrentSession().update(basketItem);
         }
     }
 
@@ -61,9 +74,9 @@ public class BasketDao implements IBasketDao {
     }
 
     @Transactional
-    public void cleanBasket(int idEmployee){
+    public void cleanBasket(int idEmployee) {
         Employee employee = sessionFactory.getCurrentSession().get(Employee.class, idEmployee);
-        while (!employee.getBasket().getBasketItems().isEmpty()){
+        while (!employee.getBasket().getBasketItems().isEmpty()) {
             deleteItem(employee.getId(), employee.getBasket().getBasketItems().get(0).getProducts().get(0).getId());
         }
     }
@@ -94,7 +107,7 @@ public class BasketDao implements IBasketDao {
             } else {
                 return format.format(totalCost - (totalCost / 100 * Double.parseDouble(query.list().get(0).toString())));
             }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return "0";
         }
 

@@ -15,8 +15,10 @@ public class Order {
     private Date date;
     @Column(name = "time_order")
     private Time time;
-    @Column(name = "final_price")
-    private double finalPrice;
+    @Column(name = "cash_amount")
+    private Double cashAmount;
+    @Column(name = "card_amount")
+    private Double cardAmount;
     private int discount;
     @ManyToOne
     @JoinColumn(name = "employee_id")
@@ -34,10 +36,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(Date date, Time time, double finalPrice, int discount, Employee employee, Client client, String paymentType, String info) {
+    public Order(Date date, Time time, double cashAmount, double cardAmount, int discount, Employee employee, Client client, String paymentType, String info) {
         this.date = date;
         this.time = time;
-        this.finalPrice = finalPrice;
+        this.cashAmount = cashAmount;
+        this.cardAmount = cardAmount;
         this.discount = discount;
         this.employee = employee;
         this.client = client;
@@ -69,12 +72,20 @@ public class Order {
         this.time = time;
     }
 
-    public double getFinalPrice() {
-        return finalPrice;
+    public Double getCashAmount() {
+        return cashAmount;
     }
 
-    public void setFinalPrice(double finalPrice) {
-        this.finalPrice = finalPrice;
+    public void setCashAmount(Double cashAmount) {
+        this.cashAmount = cashAmount;
+    }
+
+    public Double getCardAmount() {
+        return cardAmount;
+    }
+
+    public void setCardAmount(Double cardAmount) {
+        this.cardAmount = cardAmount;
     }
 
     public int getDiscount() {
@@ -131,7 +142,8 @@ public class Order {
                 "id=" + id +
                 ", date=" + date +
                 ", time=" + time +
-                ", finalPrice=" + finalPrice +
+                ", cashAmount=" + cashAmount +
+                ", cardAmount=" + cardAmount +
                 ", discount=" + discount +
                 ", employee=" + employee +
                 ", client=" + client +

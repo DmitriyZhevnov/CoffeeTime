@@ -25,6 +25,7 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "composition_id"))
     private List<Composition> composition ;
+
     @ManyToMany
     @JoinTable(name = "order_item_product",
             joinColumns = @JoinColumn(name = "product_id"),
