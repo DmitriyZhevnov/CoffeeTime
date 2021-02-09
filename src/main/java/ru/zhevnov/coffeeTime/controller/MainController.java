@@ -12,76 +12,76 @@ import ru.zhevnov.coffeeTime.service.*;
 @RequestMapping("/main")
 public class MainController {
 
-    @Autowired
-    private ICategoryService categoryService;
-    @Autowired
-    private IBasketService basketService;
+//    @Autowired
+//    private ICategoryService categoryService;
+//    @Autowired
+//    private IBasketService basketService;
     @Autowired
     private IShiftService shiftService;
-    @Autowired
-    private IClientService clientService;
-    @Autowired
-    private IOrderService  orderService;
-    @Autowired
-    private ICommercialObjectService commercialObjectService;
+//    @Autowired
+//    private IClientService clientService;
+//    @Autowired
+//    private IOrderService  orderService;
+//    @Autowired
+//    private ICommercialObjectService commercialObjectService;
 
     @GetMapping
     public String showMainPage() {
         return "main/mainPage";
     }
 
-    @GetMapping("/newOrder")
-    public String newOrder(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, Model model, @ModelAttribute("user") Employee employee) {
-        model.addAttribute("phoneNumber", "");
-        model.addAttribute("coffees", categoryService.returnAllCoffees());
-        model.addAttribute("drinks", categoryService.returnAllDrinks());
-        model.addAttribute("additions", categoryService.returnAllAdditions());
-        model.addAttribute("bars", categoryService.returnAllBars());
-        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
-        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
-        return "main/newOrder";
-    }
-
-    @GetMapping("/newOrder/add/{idProduct}")
-    public String addProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, @PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
-        basketService.addProductToBasket(employee.getId(), idProduct, 1);
-        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
-        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
-        return "main/newOrder";
-    }
-
-    @GetMapping("/newOrder/sub/{idProduct}")
-    public String subProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber,@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
-        basketService.addProductToBasket(employee.getId(), idProduct, -1);
-        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(),phoneNumber));
-        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
-        return "main/newOrder";
-    }
-
-    @GetMapping("/newOrder/delete/{idProduct}")
-    public String deleteProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber,@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
-        basketService.deleteItem(employee.getId(), idProduct);
-        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
-        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
-        return "main/newOrder";
-    }
-
-    @PostMapping("/newOrder/makeDiscount")
-    public String makeDiscount(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, Model model, @ModelAttribute("user") Employee employee) {
-        model.addAttribute("phoneNumber", phoneNumber);
-        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
-        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
-        return "main/newOrder";
-    }
-
-    @PostMapping("newClient")
-    public String registerNewClient(Model model, @RequestParam(value = "pNumber") String phoneNumber, @RequestParam("name") String name, @ModelAttribute("user") Employee employee){
-        clientService.registerNewClient(name, phoneNumber);
-        model.addAttribute("phoneNumber", phoneNumber);
-        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
-        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
-        return "main/newOrder";
-    }
+//    @GetMapping("/newOrder")
+//    public String newOrder(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, Model model, @ModelAttribute("user") Employee employee) {
+//        model.addAttribute("phoneNumber", "");
+//        model.addAttribute("coffees", categoryService.returnAllCoffees());
+//        model.addAttribute("drinks", categoryService.returnAllDrinks());
+//        model.addAttribute("additions", categoryService.returnAllAdditions());
+//        model.addAttribute("bars", categoryService.returnAllBars());
+//        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
+//        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
+//        return "main/newOrder";
+//    }
+//
+//    @GetMapping("/newOrder/add/{idProduct}")
+//    public String addProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, @PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+//        basketService.addProductToBasket(employee.getId(), idProduct, 1);
+//        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
+//        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
+//        return "main/newOrder";
+//    }
+//
+//    @GetMapping("/newOrder/sub/{idProduct}")
+//    public String subProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber,@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+//        basketService.addProductToBasket(employee.getId(), idProduct, -1);
+//        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(),phoneNumber));
+//        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
+//        return "main/newOrder";
+//    }
+//
+//    @GetMapping("/newOrder/delete/{idProduct}")
+//    public String deleteProduct(@RequestParam(value = "phoneNumber", required = false) String phoneNumber,@PathVariable(name = "idProduct") int idProduct, Model model, @ModelAttribute("user") Employee employee) {
+//        basketService.deleteItem(employee.getId(), idProduct);
+//        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
+//        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
+//        return "main/newOrder";
+//    }
+//
+//    @PostMapping("/newOrder/makeDiscount")
+//    public String makeDiscount(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, Model model, @ModelAttribute("user") Employee employee) {
+//        model.addAttribute("phoneNumber", phoneNumber);
+//        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
+//        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
+//        return "main/newOrder";
+//    }
+//
+//    @PostMapping("newClient")
+//    public String registerNewClient(Model model, @RequestParam(value = "pNumber") String phoneNumber, @RequestParam("name") String name, @ModelAttribute("user") Employee employee){
+//        clientService.registerNewClient(name, phoneNumber);
+//        model.addAttribute("phoneNumber", phoneNumber);
+//        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
+//        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
+//        return "main/newOrder";
+//    }
 
     @GetMapping("/closeShift")
     public String closeShift(@ModelAttribute("user") Employee employee, Model model) {
@@ -89,15 +89,15 @@ public class MainController {
         return "redirect:/login";
     }
 
-    @PostMapping("/pay")
-    public String payAndMakeOrder(@RequestParam("paymentType") String paymentType, @ModelAttribute("user") Employee employee,
-                                  @ModelAttribute("phoneNumber") String phoneNumber, Model model){
-        commercialObjectService.submitItemsFromCommercialObjectsStorage(employee.getId());
-        orderService.saveNewOrder(employee.getId(), phoneNumber, paymentType);
-        model.addAttribute("phoneNumber", "");
-        model.addAttribute("coffees", categoryService.returnAllCoffees());
-        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
-        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
-        return "main/newOrder";
-    }
+//    @PostMapping("/pay")
+//    public String payAndMakeOrder(@RequestParam("paymentType") String paymentType, @ModelAttribute("user") Employee employee,
+//                                  @ModelAttribute("phoneNumber") String phoneNumber, Model model){
+//        commercialObjectService.submitItemsFromCommercialObjectsStorage(employee.getId());
+//        orderService.saveNewOrder(employee.getId(), phoneNumber, paymentType);
+//        model.addAttribute("phoneNumber", "");
+//        model.addAttribute("coffees", categoryService.returnAllCoffees());
+//        model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
+//        model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
+//        return "main/newOrder";
+//    }
 }

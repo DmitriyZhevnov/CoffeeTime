@@ -81,13 +81,13 @@
                     <tr>
                         <td width="55%">${item.products.get(0).name}</td>
                         <td width="10%">${item.quantity}</td>
-                        <td width="25%"><a title="add" href="/main/newOrder/add/${item.products.get(0).id}"><img
+                        <td width="25%"><a title="add" href="/newOrder/add/${item.products.get(0).id}"><img
                                 src="<c:url value="/resources/images/addProduct.png"/>" width="20px" height="20px"
                                 class="icon"></a>
-                            <a title="sub" href="/main/newOrder/sub/${item.products.get(0).id}"><img
+                            <a title="sub" href="/newOrder/sub/${item.products.get(0).id}"><img
                                     src="<c:url value="/resources/images/subProduct.png"/>" width="20px" height="20px"
                                     class="icon"></a>
-                            <a title="delete" href="/main/newOrder/delete/${item.products.get(0).id}"><img
+                            <a title="delete" href="/newOrder/delete/${item.products.get(0).id}"><img
                                     src="<c:url value="/resources/images/delProduct.png"/>" width="20px" height="20px"
                                     class="icon"></a>
                         </td>
@@ -96,7 +96,7 @@
                 </c:forEach>
                 <tr>
                     <td colspan="4">
-                        <form action='/main/newOrder/makeDiscount' method='post'>
+                        <form action='/newOrder/makeDiscount' method='post'>
                             <input type="text" name="phoneNumber" value="${phoneNumber}">
                             <input type='submit' value="Применить скидку"/>
                         </form>
@@ -113,11 +113,11 @@
                         </div>
                         <div class="b-popup" id="popup1">
                             <div class="b-popup-content">
-                                <form action="/main/pay" method="post">
+                                <form action="/newOrder/pay" method="post">
                                     <input type="hidden" name="paymentType" value="cash">
                                     <p><input type="submit" value=Наличные></p>
                                 </form>
-                                <form action="/main/pay" method="post">
+                                <form action="/newOrder/pay" method="post">
                                     <input type="hidden" name="paymentType" value="card">
                                     <p><input type="submit" value=Безналичные></p>
                                 </form>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="b-popup" id="popup2">
                             <div class="b-popup-content">
-                                <form action="/main/newClient" method="post">
+                                <form action="/newOrder/newClient" method="post">
                                     <p>Имя: <textarea name="name" cols="15" rows="1"></textarea></p>
                                     <p>Телефон: <textarea name="pNumber" cols="15" rows="1"></textarea></p>
                                     <p><input type="submit" value=Зарегистрировать></p>
@@ -156,7 +156,7 @@
                 <c:forEach items="${coffees}" var="product">
                     <tr>
                         <td>
-                            <form action='/main/newOrder/add/${product.id}' method='get'>
+                            <form action='/newOrder/add/${product.id}' method='get'>
                                 <input type='submit' value="${product.name}"/>
                             </form>
                         </td>
@@ -170,7 +170,7 @@
                 <c:forEach items="${drinks}" var="product">
                     <tr>
                         <td>
-                            <form action='/main/newOrder/add/${product.id}' method='get'>
+                            <form action='/newOrder/add/${product.id}' method='get'>
                                 <input type='submit' value="${product.name}"/>
                             </form>
                         </td>
@@ -182,7 +182,7 @@
                 <c:forEach items="${additions}" var="product">
                     <tr>
                         <td>
-                            <form action='/main/newOrder/add/${product.id}' method='get'>
+                            <form action='/newOrder/add/${product.id}' method='get'>
                                 <input type='submit' value="${product.name}"/>
                             </form>
                         </td>
@@ -196,7 +196,7 @@
                 <c:forEach items="${bars}" var="product">
                     <tr>
                         <td>
-                            <form action='/main/newOrder/add/${product.id}' method='get'>
+                            <form action='/newOrder/add/${product.id}' method='get'>
                                 <input type='submit' value="${product.name}"/>
                             </form>
                         </td>

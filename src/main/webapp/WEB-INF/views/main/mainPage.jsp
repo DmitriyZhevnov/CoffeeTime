@@ -24,7 +24,7 @@
 <table width="100%" height="80%">
     <tr>
         <td height="10%" valign="top" align="left">
-            <form:form action="/main/newOrder" method="get">
+            <form:form action="/newOrder" method="get">
                 <input type="submit" value="Принять заказ">
             </form:form>
         </td>
