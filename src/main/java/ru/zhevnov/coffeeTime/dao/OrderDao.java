@@ -40,11 +40,9 @@ public class OrderDao implements IOrderDao {
             } else {
                 newOrder = new Order(date, time, totalCostOfOrder, client.getDiscount(), employee, client, paymentType, "");
                 clientService.addOnePercentToDiscount(client.getId());
-//                sessionFactory.getCurrentSession().update(client.getDiscount());
                 sessionFactory.getCurrentSession().save(newOrder);
             }
             putProductsInOrderItemFromBasketItem(employee.getId(), newOrder.getId());
-//            commercialObjectService.submitItemsFromCommercialObjectsStorage(employee.getId());
             basketService.cleanBasket(employee.getId());
         }
     }

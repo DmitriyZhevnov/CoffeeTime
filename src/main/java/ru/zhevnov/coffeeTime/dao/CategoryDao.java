@@ -18,4 +18,16 @@ public class CategoryDao implements ICategoryDao {
     public List<Product> returnAllCoffees() {
         return sessionFactory.getCurrentSession().createQuery("from Product where category = '1'").list();
     }
+    @Transactional
+    public List<Product> returnAllDrinks() {
+        return sessionFactory.getCurrentSession().createQuery("from Product where category = '2'").list();
+    }
+    @Transactional
+    public List<Product> returnAllAdditions() {
+        return sessionFactory.getCurrentSession().createQuery("from Product where category = '3'").list();
+    }
+    @Transactional
+    public List<Product> returnAllBars() {
+        return sessionFactory.getCurrentSession().createQuery("from Product where category = '4'").list();
+    }
 }

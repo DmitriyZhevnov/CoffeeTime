@@ -166,25 +166,43 @@
             </table>
         </td>
         <td valign="top">
-            <table  width="100%" cellpadding="2" cellspacing="1" border="1">
-                <tr>
-                    <td>Напитки название</td>
-                    <td>напитки цена</td>
-                </tr>
+            <table width="100%" cellpadding="2" cellspacing="1" border="1">
+                <c:forEach items="${drinks}" var="product">
+                    <tr>
+                        <td>
+                            <form action='/main/newOrder/add/${product.id}' method='get'>
+                                <input type='submit' value="${product.name}"/>
+                            </form>
+                        </td>
+                        <td>кофе цена</td>
+                    </tr>
+                </c:forEach>
             </table>
             <table width="100%" cellpadding="2" cellspacing="1" border="1">
-                <tr>
-                    <td>Добавки название</td>
-                    <td>Добавки цена</td>
-                </tr>
+                <c:forEach items="${additions}" var="product">
+                    <tr>
+                        <td>
+                            <form action='/main/newOrder/add/${product.id}' method='get'>
+                                <input type='submit' value="${product.name}"/>
+                            </form>
+                        </td>
+                        <td>кофе цена</td>
+                    </tr>
+                </c:forEach>
             </table>
         </td>
         <td valign="top">
             <table width="100%" cellpadding="2" cellspacing="1" border="1">
-                <tr>
-                    <td>Батончики название</td>
-                    <td>Батончики цена</td>
-                </tr>
+                <c:forEach items="${bars}" var="product">
+                    <tr>
+                        <td>
+                            <form action='/main/newOrder/add/${product.id}' method='get'>
+                                <input type='submit' value="${product.name}"/>
+                            </form>
+                        </td>
+                        <td>кофе цена</td>
+                    </tr>
+                </c:forEach>
             </table>
         </td>
     </tr>

@@ -8,7 +8,7 @@ import ru.zhevnov.coffeeTime.entity.Employee;
 import ru.zhevnov.coffeeTime.service.*;
 
 @Controller
-@SessionAttributes({"user","phoneNumber", "coffees"})
+@SessionAttributes({"user","phoneNumber", "coffees", "drinks", "additions", "bars"})
 @RequestMapping("/main")
 public class MainController {
 
@@ -34,6 +34,9 @@ public class MainController {
     public String newOrder(@RequestParam(value = "phoneNumber", required = false) String phoneNumber, Model model, @ModelAttribute("user") Employee employee) {
         model.addAttribute("phoneNumber", "");
         model.addAttribute("coffees", categoryService.returnAllCoffees());
+        model.addAttribute("drinks", categoryService.returnAllDrinks());
+        model.addAttribute("additions", categoryService.returnAllAdditions());
+        model.addAttribute("bars", categoryService.returnAllBars());
         model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));
         model.addAttribute("basket", basketService.returnListOfProductsInBasket(employee.getId()));
         return "main/newOrder";
@@ -90,9 +93,7 @@ public class MainController {
     public String payAndMakeOrder(@RequestParam("paymentType") String paymentType, @ModelAttribute("user") Employee employee,
                                   @ModelAttribute("phoneNumber") String phoneNumber, Model model){
         commercialObjectService.submitItemsFromCommercialObjectsStorage(employee.getId());
-//        orderService.saveNewOrder(employee.getId(), phoneNumber, paymentType);
-
-        //        basketService.cleanBasket(employee.getId());
+        orderService.saveNewOrder(employee.getId(), phoneNumber, paymentType);
         model.addAttribute("phoneNumber", "");
         model.addAttribute("coffees", categoryService.returnAllCoffees());
         model.addAttribute("totalCost", basketService.returnTotalCostOfTheOrder(employee.getId(), phoneNumber));

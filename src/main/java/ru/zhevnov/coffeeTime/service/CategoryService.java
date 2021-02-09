@@ -17,4 +17,19 @@ public class CategoryService implements ICategoryService {
     public List<Product> returnAllCoffees() {
         return categoryDao.returnAllCoffees();
     }
+
+    @Override
+    public List<Product> returnAllDrinks() {
+        return categoryDao.returnAllDrinks();
+    }
+
+    @Override
+    public List<Product> returnAllAdditions() {
+        return categoryDao.returnAllAdditions();
+    }
+
+    @Override
+    public List<Product> returnAllBars() {
+        return categoryDao.returnAllBars();
+    }
 }
