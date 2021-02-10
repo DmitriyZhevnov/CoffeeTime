@@ -43,7 +43,7 @@
 
         </td>
         <td height="80%" valign="top" align="right">
-            <form:form action="" method="get">
+            <form:form action="/report" method="get">
                 <input type="submit" value="Отчёт">
             </form:form>
         </td>
