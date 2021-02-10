@@ -83,8 +83,6 @@ public class NewOrderController {
                                   @ModelAttribute("phoneNumber") String phoneNumber,
                                   @RequestParam(value = "cashAmount", required = false) String cash,
                                   @RequestParam(value = "cardAmount", required = false) String card, Model model) {
-        System.out.println(card);
-        System.out.println(cash);
         commercialObjectService.submitItemsFromCommercialObjectsStorage(employee.getId());
         orderService.saveNewOrder(employee.getId(), phoneNumber, paymentType, card, cash);
         model.addAttribute("phoneNumber", "");

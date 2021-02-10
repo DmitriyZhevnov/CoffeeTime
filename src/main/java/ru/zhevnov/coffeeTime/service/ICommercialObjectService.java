@@ -8,4 +8,5 @@ public interface ICommercialObjectService {
     List<CommercialObject> returnListOdCommercialObjects();
     CommercialObject returnCommercialObjectById(int commercialObjectId);
     void submitItemsFromCommercialObjectsStorage(int idEmployee);
+    void addItemsFromOrderInCommercialObjectsStorage(int idOrder);
 }

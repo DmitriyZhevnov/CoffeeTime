@@ -11,4 +11,6 @@ public interface IOrderDao {
     void saveNewOrder(int idEmployee, String phoneNumber, String paymentType, String card, String cash);
     List<Order> returnAllOrdersByEmployeeId(int employeeId);
     Order returnOrderById(int orderId);
+    void cancelOrder(int idOrder, String reason, String type);
+    void changePaymentType(int idOrder, String type, String cash, String card, String reason);
 }

@@ -92,6 +92,59 @@ public class OrderDao implements IOrderDao {
     }
 
     @Transactional
+    public void cancelOrder(int idOrder, String reason, String type) {
+        Date date = new Date(System.currentTimeMillis());
+        Time time = new Time(System.currentTimeMillis());
+        Order order = sessionFactory.getCurrentSession().get(Order.class, idOrder);
+        order.setCardAmount(0.0);
+        order.setCashAmount(0.0);
+        order.setPaymentType("cancelled");
+        StringBuilder info;
+        if (order.getInfo() == null) {
+            info = new StringBuilder();
+        } else {
+            info = new StringBuilder(order.getInfo());
+        }
+        if (type.equals("withWriteOffProducts")) {
+            info.append("-------\n Отмена заказа " + date + " в " + time + " С списанием продуктов.\n Причина:" + reason + "\n");
+        } else if (type.equals("withoutWriteOffProducts")) {
+            info.append("-------\n Отмена заказа " + date + " в " + time + " БЕЗ списания продуктов.\n Причина:" + reason + "\n");
+            commercialObjectService.addItemsFromOrderInCommercialObjectsStorage(order.getId());
+        }
+        order.setInfo(info.toString());
+        sessionFactory.getCurrentSession().update(order);
+    }
+
+    @Transactional
+    public void changePaymentType(int idOrder, String type, String cash, String card, String reason) {
+        Date date = new Date(System.currentTimeMillis());
+        Time time = new Time(System.currentTimeMillis());
+        Order order = sessionFactory.getCurrentSession().get(Order.class, idOrder);
+        StringBuilder info;
+        if (order.getInfo() == null) {
+            info = new StringBuilder();
+        } else {
+            info = new StringBuilder(order.getInfo());
+        }
+        info.append("-------\n Изменения типа оплаты " + date + " в " + time + ", с " + order.getPaymentType() +
+                " на "+ type +".\n Причина:" + reason + "\n");
+        order.setPaymentType(type);
+        double totalCost = order.getCashAmount() + order.getCardAmount();
+        if (type.equals("cash")){
+            order.setCashAmount(totalCost);
+            order.setCardAmount(0.0);
+        } else if (type.equals("card")){
+            order.setCashAmount(0.0);
+            order.setCardAmount(totalCost);
+        } else if (type.equals("different")){
+            order.setCashAmount(Double.parseDouble(cash));
+            order.setCardAmount(Double.parseDouble(card));
+        }
+        order.setInfo(info.toString());
+        sessionFactory.getCurrentSession().update(order);
+    }
+
+    @Transactional
     public List<Order> returnAllOrdersByEmployeeId(int employeeId) {
         Date date = new Date(System.currentTimeMillis());
         Query query = sessionFactory.getCurrentSession()
@@ -102,7 +155,7 @@ public class OrderDao implements IOrderDao {
     }
 
     @Transactional
-    public Order returnOrderById(int orderId){
+    public Order returnOrderById(int orderId) {
         return sessionFactory.getCurrentSession().get(Order.class, orderId);
     }
 }

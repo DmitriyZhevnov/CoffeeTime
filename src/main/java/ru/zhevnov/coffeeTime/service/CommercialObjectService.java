@@ -27,4 +27,9 @@ public class CommercialObjectService implements ICommercialObjectService {
     public void submitItemsFromCommercialObjectsStorage(int idEmployee) {
         commercialObjectDao.submitItemsFromCommercialObjectsStorage(idEmployee);
     }
+
+    @Override
+    public void addItemsFromOrderInCommercialObjectsStorage(int idOrder) {
+        commercialObjectDao.addItemsFromOrderInCommercialObjectsStorage(idOrder);
+    }
 }

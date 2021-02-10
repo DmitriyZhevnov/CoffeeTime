@@ -19,7 +19,6 @@ public class ClosedOrdersController {
 
     @GetMapping()
     public String newOrder(@ModelAttribute("user") Employee employee, Model model) {
-//        model.addAttribute("orderItems", orderService.returnAllOrderItemsByEmployeeId(employee.getId()));
         model.addAttribute("orders", orderService.returnAllOrdersByEmployeeId(employee.getId()));
         return "main/orders/closedOrders";
     }
@@ -29,4 +28,21 @@ public class ClosedOrdersController {
         model.addAttribute("order", orderService.returnOrderById(idOrder));
         return "main/orders/ordersInfo";
     }
+    @PostMapping("/{idOrder}/cancel")
+    public String cancelOrder(@PathVariable(name = "idOrder") int idOrder, @RequestParam(name = "reason")String reason,
+                              @RequestParam(name = "typeOfOrderCancellation") String type, Model model){
+        orderService.cancelOrder(idOrder, reason, type);
+        model.addAttribute("order", orderService.returnOrderById(idOrder));
+        return "main/orders/ordersInfo";
+    }
+    @PostMapping("/{idOrder}/changePaymentType")
+    public String changePaymentType(@PathVariable(name = "idOrder") int idOrder,
+                                    @RequestParam(name = "reason", required = false)String reason, @RequestParam(name = "paymentType") String type,
+                                    @RequestParam(value = "cashAmount", required = false) String cash,
+                                    @RequestParam(value = "cardAmount", required = false) String card, Model model){
+        orderService.changePaymentType(idOrder, type, cash, card, reason);
+        model.addAttribute("order", orderService.returnOrderById(idOrder));
+        return "main/orders/ordersInfo";
+    }
+
 }
