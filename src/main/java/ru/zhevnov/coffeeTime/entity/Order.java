@@ -1,8 +1,10 @@
 package ru.zhevnov.coffeeTime.entity;
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,15 +25,15 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
     private Client client;
     @Column(name = "payment_type")
     private String paymentType;
     private String info;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private Set<OrderItem> orderItems = new HashSet<>();
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public Order() {
     }
@@ -128,11 +130,11 @@ public class Order {
         this.info = info;
     }
 
-    public Set<OrderItem> getOrderItems() {
+    public List<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(Set<OrderItem> orderItems) {
+    public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 

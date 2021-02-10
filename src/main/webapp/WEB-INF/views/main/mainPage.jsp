@@ -37,7 +37,7 @@
     <tr>
         <td height="80%" valign="top" align="left">
 
-            <form:form action="" method="get">
+            <form:form action="/closedOrders" method="get">
                 <input type="submit" value="Закрытые заказы">
             </form:form>
 
