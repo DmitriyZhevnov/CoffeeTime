@@ -7,11 +7,19 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
+import javax.servlet.Filter;
 import javax.sql.DataSource;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -35,6 +43,7 @@ public class AppConfig{
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
         return properties;
     }
+
 
     @Bean
     public DataSource dataSource() {
