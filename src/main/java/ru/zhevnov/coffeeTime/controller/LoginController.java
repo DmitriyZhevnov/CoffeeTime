@@ -28,7 +28,7 @@ public class LoginController {
 
     @GetMapping
     public String showLoginPage(Model model) {
-        model.addAttribute("commercialObjects", commercialObjectService.returnListOdCommercialObjects());
+        model.addAttribute("commercialObjects", commercialObjectService.returnAllCommercialObjects());
         return "login/loginPage";
     }
 

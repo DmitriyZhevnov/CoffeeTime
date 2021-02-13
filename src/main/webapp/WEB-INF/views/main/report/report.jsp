@@ -6,17 +6,32 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
+<script>
+    function copyDate() {
+        var fromDate = document.getElementById('first');
+        document.getElementById('second').value = fromDate.value;
+    }
+</script>
 <head>
     <title>report</title>
 </head>
 <body>
 <table border="1">
-    <form>
-        <p>Выберите дату:
-            <input type="date" name="calendar" value="2012-06-01"
-                   max="2012-06-04" min="2012-05-29">
-            <input type="submit" value="Отправить"></p>
+    <form action="/report/date">
+        <p>Выберите объект:</p>
+        <p>
+            <select name="idCommercialObject">
+                <c:forEach items="${allCommercialObjects}" var="commercialObject">
+                    <option value="${commercialObject.id}">${commercialObject.address}</option>
+                </c:forEach>
+            </select>
+        </p>
+        <p>Выберите дату: </p>
+        <p> С : <input type="date" id="first" name="fromDate" onchange="copyDate()" value="${fromDate}"></p>
+        <p> По : <input type="date" id="second" name="toDate" value="${toDate}"></p>
+        <p><input type="submit" value="Просмотр"></p>
     </form>
     <tr>
         <td>Всего</td>

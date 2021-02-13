@@ -21,7 +21,7 @@ public class CommercialObjectDao implements ICommercialObjectDao {
     private /*IShiftService shiftService;*/ IShiftDao shiftService;
 
     @Transactional
-    public List<CommercialObject> returnListOdCommercialObjects() {
+    public List<CommercialObject> returnAllCommercialObjects() {
         return sessionFactory.getCurrentSession().createQuery("from CommercialObject").list();
     }
 

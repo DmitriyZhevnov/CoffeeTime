@@ -14,8 +14,8 @@ public class CommercialObjectService implements ICommercialObjectService {
     private ICommercialObjectDao commercialObjectDao;
 
     @Override
-    public List<CommercialObject> returnListOdCommercialObjects() {
-        return commercialObjectDao.returnListOdCommercialObjects();
+    public List<CommercialObject> returnAllCommercialObjects() {
+        return commercialObjectDao.returnAllCommercialObjects();
     }
 
     @Override

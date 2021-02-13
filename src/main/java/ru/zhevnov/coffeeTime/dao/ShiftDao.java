@@ -73,25 +73,31 @@ public class ShiftDao implements IShiftDao {
 
 
     @Transactional
-    public List makeReport(int idEmployee) {
+    public List makeReport(int idCommercialObject, Date fromDate, Date toDate) {
         DecimalFormat format = new DecimalFormat("##.00");
         DecimalFormatSymbols dfs = format.getDecimalFormatSymbols();
         dfs.setDecimalSeparator('.');
         format.setDecimalFormatSymbols(dfs);
-        Date date = new Date(System.currentTimeMillis());
         List list = new ArrayList();
-        String sql = "select sum(card_amount + cash_amount) as total, sum(card_amount) as card, sum(cash_amount) as cash,\n" +
-                "       (select count(employee_id) from orders where date_order = '"+ date +"' and employee_id = '" + idEmployee + "' and (cash_amount != '0' or card_amount !='0')) as countOrder,\n" +
-                "       (select count(employee_id) from orders where date_order = '"+ date +"' and employee_id = '" + idEmployee + "' and cash_amount = '0' and card_amount ='0') as countOrderCanceled\n" +
-                "from orders where date_order = '"+ date +"' and employee_id = '" + idEmployee + "';";
+        String sql = "select sum(card_amount + cash_amount) as total, sum(card_amount) as card, sum(cash_amount) as cash," +
+                " (select count(employee_id) from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and employee_id in" +
+                " (select shift.employee_id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" + idCommercialObject + "') and (cash_amount != '0' or card_amount !='0')) as countOrder," +
+                " (select count(employee_id) from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and employee_id in (select shift.employee_id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" + idCommercialObject + "') and cash_amount = '0' and card_amount ='0') as countOrderCanceled" +
+                " from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and employee_id in (select shift.employee_id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" +idCommercialObject + "');";
         List<Object[]> objList = sessionFactory.getCurrentSession().createSQLQuery(sql).list();
         for(Object[] objs : objList){
-            list.add(format.format(Double.valueOf((Double) objs[0])));
-            list.add(format.format(Double.valueOf((Double) objs[1])));
-            list.add(format.format(Double.valueOf((Double) objs[2])));
+            System.out.println(objs[0]);
+            System.out.println(objs[1]);
+            System.out.println(objs[2]);
+            System.out.println(objs[3]);
+            System.out.println(objs[4]);
+            list.add(objs[0]==null ? 0.0 : format.format(Double.valueOf((Double) objs[0])));
+            list.add(objs[1]==null ? 0.0 : format.format(Double.valueOf((Double) objs[1])));
+            list.add(objs[2]==null ? 0.0 : format.format(Double.valueOf((Double) objs[2])));
             list.add(objs[3].toString());
             list.add(objs[4].toString());
         }
+        System.out.println(list);
         return list;
     }
 }
