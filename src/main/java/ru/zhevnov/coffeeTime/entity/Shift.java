@@ -3,6 +3,8 @@ package ru.zhevnov.coffeeTime.entity;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "shift")
@@ -24,6 +26,9 @@ public class Shift {
     private Date dateClosed;
     @Column(name = "time_closed")
     private Time timeClosed;
+
+    @OneToMany(mappedBy = "shift", fetch = FetchType.LAZY)
+    private Set<Order> orders = new HashSet<>();
 
     public Shift() {
     }
@@ -91,6 +96,14 @@ public class Shift {
 
     public void setTimeClosed(Time timeClosed) {
         this.timeClosed = timeClosed;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

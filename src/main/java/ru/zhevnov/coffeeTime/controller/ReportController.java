@@ -35,7 +35,7 @@ public class ReportController {
         return "main/report/report";
     }
 
-    @GetMapping("/date")
+    @PostMapping("/date")
     public String newOrder(@ModelAttribute("user") Employee employee, Model model,
                            @RequestParam("fromDate") Date fromDate, @RequestParam("toDate") Date toDate,
                            @RequestParam("idCommercialObject") int idCommercialObject) {

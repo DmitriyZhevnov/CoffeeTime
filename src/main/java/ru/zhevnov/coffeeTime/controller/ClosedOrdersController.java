@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.zhevnov.coffeeTime.dao.IOrderDao;
 import ru.zhevnov.coffeeTime.dao.OrderDao;
 import ru.zhevnov.coffeeTime.entity.Employee;
+import ru.zhevnov.coffeeTime.service.ICommercialObjectService;
 import ru.zhevnov.coffeeTime.service.OrderService;
+
+import java.sql.Date;
 
 @Controller
 @SessionAttributes({"user"})
@@ -16,10 +19,24 @@ public class ClosedOrdersController {
 
     @Autowired
     private /*IOrderService*/ IOrderDao orderService;
+    @Autowired
+    private ICommercialObjectService commercialObjectService;
 
     @GetMapping()
-    public String newOrder(@ModelAttribute("user") Employee employee, Model model) {
+    public String showCanceledOrders(@ModelAttribute("user") Employee employee, Model model) {
+        model.addAttribute("date", new Date(System.currentTimeMillis()));
+        model.addAttribute("allCommercialObjects", commercialObjectService.returnAllCommercialObjects());
         model.addAttribute("orders", orderService.returnAllOrdersByEmployeeId(employee.getId()));
+        return "main/orders/closedOrders";
+    }
+
+    @PostMapping("/date")
+    public String showCanceledOrdersForAdmin(@ModelAttribute("user") Employee employee, Model model,
+                                             @RequestParam("idCommercialObject") int idCommercialObject,
+                                             @RequestParam("date") Date date) {
+        model.addAttribute("date", new Date(System.currentTimeMillis()));
+        model.addAttribute("allCommercialObjects", commercialObjectService.returnAllCommercialObjects());
+        model.addAttribute("orders", orderService.returnAllOrdersByCommercialObjectAndDate(idCommercialObject, date));
         return "main/orders/closedOrders";
     }
 

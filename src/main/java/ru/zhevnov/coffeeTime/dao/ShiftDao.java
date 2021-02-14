@@ -68,6 +68,19 @@ public class ShiftDao implements IShiftDao {
             shift.setTimeOpened(time);
             shift.setCommercialObject(commercialObjectService.returnCommercialObjectById(commercialObjectId));
             sessionFactory.getCurrentSession().save(shift);
+        } else {
+            Shift shift = sessionFactory.getCurrentSession().get(Shift.class, (int) list.get(0));
+            if (shift.getCommercialObject().getId() != commercialObjectId){
+                shift.setDateClosed(new Date(System.currentTimeMillis()));
+                shift.setTimeClosed(new Time(System.currentTimeMillis()));
+                sessionFactory.getCurrentSession().update(shift);
+                Shift shift2 = new Shift();
+                shift2.setEmployee(sessionFactory.getCurrentSession().get(Employee.class, idEmployee));
+                shift2.setDateOpened(date);
+                shift2.setTimeOpened(time);
+                shift2.setCommercialObject(commercialObjectService.returnCommercialObjectById(commercialObjectId));
+                sessionFactory.getCurrentSession().save(shift2);
+            }
         }
     }
 
@@ -80,10 +93,10 @@ public class ShiftDao implements IShiftDao {
         format.setDecimalFormatSymbols(dfs);
         List list = new ArrayList();
         String sql = "select sum(card_amount + cash_amount) as total, sum(card_amount) as card, sum(cash_amount) as cash," +
-                " (select count(employee_id) from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and employee_id in" +
-                " (select shift.employee_id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" + idCommercialObject + "') and (cash_amount != '0' or card_amount !='0')) as countOrder," +
-                " (select count(employee_id) from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and employee_id in (select shift.employee_id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" + idCommercialObject + "') and cash_amount = '0' and card_amount ='0') as countOrderCanceled" +
-                " from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and employee_id in (select shift.employee_id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" +idCommercialObject + "');";
+                " (select count(shift_id) from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and shift_id in" +
+                " (select id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" + idCommercialObject + "') and (cash_amount != '0' or card_amount !='0')) as countOrder," +
+                " (select count(shift_id) from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and shift_id in (select id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" + idCommercialObject + "') and cash_amount = '0' and card_amount ='0') as countOrderCanceled" +
+                " from orders where date_order between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and shift_id in (select id from shift where date_opened between '" + fromDate.toString() + "' and '" + toDate.toString() + "' and commercial_object_id = '" +idCommercialObject + "');";
         List<Object[]> objList = sessionFactory.getCurrentSession().createSQLQuery(sql).list();
         for(Object[] objs : objList){
             System.out.println(objs[0]);

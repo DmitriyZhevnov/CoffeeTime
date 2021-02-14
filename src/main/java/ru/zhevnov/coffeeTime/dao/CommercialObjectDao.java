@@ -33,7 +33,7 @@ public class CommercialObjectDao implements ICommercialObjectDao {
     @Transactional
     public void addItemsFromOrderInCommercialObjectsStorage(int idOrder) {
         Order order = sessionFactory.getCurrentSession().get(Order.class, idOrder);
-        CommercialObject commercialObject =  shiftService.returnOpenedShiftByEmployeeId(order.getEmployee().getId()).getCommercialObject();
+        CommercialObject commercialObject =  order.getShift().getCommercialObject();
         for (OrderItem orderItem : order.getOrderItems()) {
             int countOfItemsInOrder = orderItem.getQuantity();
             Product product = orderItem.getProducts().get(0);

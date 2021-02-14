@@ -13,12 +13,8 @@ import ru.zhevnov.coffeeTime.service.IShiftService;
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
 public class OrderDao implements IOrderDao {
@@ -43,27 +39,28 @@ public class OrderDao implements IOrderDao {
             Client client = clientService.returnClientByPhoneNumber(phoneNumber);
             double totalCostOfOrder;
             Order newOrder;
+            Shift currentShift = shiftService.returnOpenedShiftByEmployeeId(idEmployee);
             if (client == null) {
                 totalCostOfOrder = Double.parseDouble(basketService.returnTotalCostOfTheOrder(employee.getId(), ""));
                 if (paymentType.equals("cash")) {
-                    newOrder = new Order(date, time, totalCostOfOrder, 0.0, 0, employee, null, paymentType, null);
+                    newOrder = new Order(date, time, totalCostOfOrder, 0.0, 0, currentShift, null, paymentType, null);
                 } else if (paymentType.equals("card")) {
-                    newOrder = new Order(date, time, 0.0, totalCostOfOrder, 0, employee, null, paymentType, null);
+                    newOrder = new Order(date, time, 0.0, totalCostOfOrder, 0, currentShift, null, paymentType, null);
                 } else {
                     double cashAmount = Double.parseDouble(cash);
                     double cardAmount = Double.parseDouble(card);
-                    newOrder = new Order(date, time, cashAmount, cardAmount, 0, employee, null, paymentType, null);
+                    newOrder = new Order(date, time, cashAmount, cardAmount, 0, currentShift, null, paymentType, null);
                 }
             } else {
                 totalCostOfOrder = Double.parseDouble(basketService.returnTotalCostOfTheOrder(employee.getId(), client.getPhoneNumber()));
                 if (paymentType.equals("cash")) {
-                    newOrder = new Order(date, time, totalCostOfOrder, 0.0, client.getDiscount(), employee, client, paymentType, null);
+                    newOrder = new Order(date, time, totalCostOfOrder, 0.0, client.getDiscount(), currentShift, client, paymentType, null);
                 } else if (paymentType.equals("card")) {
-                    newOrder = new Order(date, time, 0.0, totalCostOfOrder, client.getDiscount(), employee, client, paymentType, null);
+                    newOrder = new Order(date, time, 0.0, totalCostOfOrder, client.getDiscount(), currentShift, client, paymentType, null);
                 } else {
                     double cashAmount = Double.parseDouble(cash);
                     double cardAmount = Double.parseDouble(card);
-                    newOrder = new Order(date, time, cashAmount, cardAmount, client.getDiscount(), employee, client, paymentType, null);
+                    newOrder = new Order(date, time, cashAmount, cardAmount, client.getDiscount(), currentShift, client, paymentType, null);
                 }
                 clientService.addOnePercentToDiscount(client.getId());
             }
@@ -106,9 +103,9 @@ public class OrderDao implements IOrderDao {
             info = new StringBuilder(order.getInfo());
         }
         if (type.equals("withWriteOffProducts")) {
-            info.append("-------\n Отмена заказа " + date + " в " + time + " С списанием продуктов.\n Причина:" + reason + "\n");
+            info.append("| Отмена заказа " + date + " в " + time + " С списанием продуктов.\n Причина:" + reason + "\n");
         } else if (type.equals("withoutWriteOffProducts")) {
-            info.append("-------\n Отмена заказа " + date + " в " + time + " БЕЗ списания продуктов.\n Причина:" + reason + "\n");
+            info.append("| Отмена заказа " + date + " в " + time + " БЕЗ списания продуктов.\n Причина:" + reason + "\n");
             commercialObjectService.addItemsFromOrderInCommercialObjectsStorage(order.getId());
         }
         order.setInfo(info.toString());
@@ -126,7 +123,7 @@ public class OrderDao implements IOrderDao {
         } else {
             info = new StringBuilder(order.getInfo());
         }
-        info.append("-------\n Изменения типа оплаты " + date + " в " + time + ", с " + order.getPaymentType() +
+        info.append("| Изменение типа оплаты " + date + " в " + time + ", с " + order.getPaymentType() +
                 " на "+ type +".\n Причина:" + reason + "\n");
         order.setPaymentType(type);
         double totalCost = order.getCashAmount() + order.getCardAmount();
@@ -147,11 +144,24 @@ public class OrderDao implements IOrderDao {
     @Transactional
     public List<Order> returnAllOrdersByEmployeeId(int employeeId) {
         Date date = new Date(System.currentTimeMillis());
-        Query query = sessionFactory.getCurrentSession()
-                .createQuery("from Order where employee.id = :idEmployee and date = :date");
+        Shift shift = shiftService.returnOpenedShiftByEmployeeId(employeeId);
+        Query query = sessionFactory.getCurrentSession().createQuery("select id from Shift where dateOpened = :date and commercialObject.id = :idCommercialObject and employee.id = :idEmployee");
         query.setParameter("date", date);
+        query.setParameter("idCommercialObject", shift.getCommercialObject().getId());
         query.setParameter("idEmployee", employeeId);
-        return query.list();
+        Query queryForFindOrders = sessionFactory.getCurrentSession().createQuery("from Order o where o.shift.id in (:idShifts)");
+        queryForFindOrders.setParameter("idShifts", query.list());
+        return queryForFindOrders.list();
+    }
+
+    @Transactional
+    public List<Order> returnAllOrdersByCommercialObjectAndDate(int idCommercialObject, Date date) {
+        Query query = sessionFactory.getCurrentSession().createQuery("select id from Shift where dateOpened = :date and commercialObject.id = :idCommercialObject");
+        query.setParameter("date", date);
+        query.setParameter("idCommercialObject", idCommercialObject);
+        Query queryForFindOrders = sessionFactory.getCurrentSession().createQuery("from Order o where o.shift.id in (:idShifts)");
+        queryForFindOrders.setParameter("idShifts", query.list());
+        return queryForFindOrders.list();
     }
 
     @Transactional

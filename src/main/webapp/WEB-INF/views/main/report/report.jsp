@@ -19,7 +19,7 @@
 </head>
 <body>
 <table border="1">
-    <form action="/report/date">
+    <form action="/report/date" method="post">
         <p>Выберите объект:</p>
         <p>
             <select name="idCommercialObject">

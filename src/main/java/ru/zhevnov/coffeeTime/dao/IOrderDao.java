@@ -5,6 +5,7 @@ import ru.zhevnov.coffeeTime.entity.Order;
 import ru.zhevnov.coffeeTime.entity.OrderItem;
 import ru.zhevnov.coffeeTime.entity.Product;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface IOrderDao {
@@ -13,4 +14,5 @@ public interface IOrderDao {
     Order returnOrderById(int orderId);
     void cancelOrder(int idOrder, String reason, String type);
     void changePaymentType(int idOrder, String type, String cash, String card, String reason);
+    List<Order> returnAllOrdersByCommercialObjectAndDate(int idCommercialObject, Date date);
 }

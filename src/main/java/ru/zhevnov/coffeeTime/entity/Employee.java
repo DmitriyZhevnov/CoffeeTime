@@ -20,8 +20,7 @@ public class Employee {
     private Role role;
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private Set<Shift> shifts = new HashSet<>();
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    private Set<Order> orders = new HashSet<>();
+
     @OneToOne(mappedBy = "employee", fetch = FetchType.LAZY)
     private Basket basket;
 
@@ -81,14 +80,6 @@ public class Employee {
 
     public void setShifts(Set<Shift> shifts) {
         this.shifts = shifts;
-    }
-
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
     }
 
     public Basket getBasket() {

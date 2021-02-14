@@ -3,9 +3,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -23,8 +21,8 @@ public class Order {
     private Double cardAmount;
     private int discount;
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JoinColumn(name = "shift_id")
+    private Shift shift;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
     private Client client;
@@ -38,13 +36,13 @@ public class Order {
     public Order() {
     }
 
-    public Order(Date date, Time time, double cashAmount, double cardAmount, int discount, Employee employee, Client client, String paymentType, String info) {
+    public Order(Date date, Time time, Double cashAmount, Double cardAmount, int discount, Shift shift, Client client, String paymentType, String info) {
         this.date = date;
         this.time = time;
         this.cashAmount = cashAmount;
         this.cardAmount = cardAmount;
         this.discount = discount;
-        this.employee = employee;
+        this.shift = shift;
         this.client = client;
         this.paymentType = paymentType;
         this.info = info;
@@ -98,12 +96,12 @@ public class Order {
         this.discount = discount;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Shift getShift() {
+        return shift;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setShift(Shift shift) {
+        this.shift = shift;
     }
 
     public Client getClient() {
@@ -147,7 +145,7 @@ public class Order {
                 ", cashAmount=" + cashAmount +
                 ", cardAmount=" + cardAmount +
                 ", discount=" + discount +
-                ", employee=" + employee +
+                ", shift=" + shift +
                 ", client=" + client +
                 ", paymentType='" + paymentType + '\'' +
                 ", info='" + info + '\'' +
