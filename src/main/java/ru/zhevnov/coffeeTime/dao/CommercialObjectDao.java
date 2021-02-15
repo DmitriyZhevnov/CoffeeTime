@@ -69,4 +69,10 @@ public class CommercialObjectDao implements ICommercialObjectDao {
             }
         }
     }
+
+    @Transactional
+    public List<CommercialObjectQuantityOfItems> returnItemsInCommercialObject(int idCommercialObject){
+        CommercialObject commercialObject = sessionFactory.getCurrentSession().get(CommercialObject.class, idCommercialObject);
+        return commercialObject.getCommercialObjectQuantityOfItems();
+    }
 }

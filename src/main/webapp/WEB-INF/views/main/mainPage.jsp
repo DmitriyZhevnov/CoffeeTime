@@ -20,12 +20,17 @@
 </head>
 <body>
 <div><h2 align="center"><spring:message code="main.title"/></h2></div>
-    <br/>
+<br/>
 <table width="100%" height="80%">
     <tr>
         <td height="10%" valign="top" align="left">
             <form:form action="/newOrder" method="get">
                 <input type="submit" value="Принять заказ">
+            </form:form>
+        </td>
+        <td valign="top" align="center">
+            <form:form action="/shifts" method="get">
+                <input type="submit" value="Учет рабочего времени">
             </form:form>
         </td>
         <td height="10%" valign="top" align="right">
@@ -35,21 +40,35 @@
         </td>
     </tr>
     <tr>
-        <td height="80%" valign="top" align="left">
-
+        <td height="10%" valign="top" align="left">
             <form:form action="/closedOrders" method="get">
                 <input type="submit" value="Закрытые заказы">
             </form:form>
-
         </td>
-        <td height="80%" valign="top" align="right">
+        <td height="10%" valign="top" align="center">
+            <form:form action="/menu" method="get">
+                <input type="submit" value="Меню">
+            </form:form>
+        </td>
+
+        <td height="10%" valign="top" align="right">
             <form:form action="/report" method="get">
                 <input type="submit" value="Отчёт">
             </form:form>
         </td>
     </tr>
     <tr>
+        <td height="70%"></td>
+        <td height="70%" valign="top" align="center">
+            <form:form action="/warehouse" method="get">
+                <input type="submit" value="Склад">
+            </form:form>
+        </td>
+        <td height="70%"></td>
+    </tr>
+    <tr>
         <td height="10%"></td>
+        <td></td>
         <td height="10%" valign="top" align="right">
             <form:form action="" method="get">
                 <input type="submit" value="Заблокировать">

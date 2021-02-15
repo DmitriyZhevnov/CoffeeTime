@@ -22,4 +22,29 @@ public class ProductService implements IProductService {
     public Product returnProductById(int id) {
         return productDao.returnProductById(id);
     }
+
+    @Override
+    public void updateProductWithNewData(int productId, String productName, double productPrice, int categoryId) {
+        productDao.updateProductWithNewData(productId, productName, productPrice, categoryId);
+    }
+
+    @Override
+    public void updateCompositionOfProduct(int compositionId, double quantityOfItem) {
+        productDao.updateCompositionOfProduct(compositionId, quantityOfItem);
+    }
+
+    @Override
+    public void addItemToProduct(int idProduct, int idItem) {
+        productDao.addItemToProduct(idProduct, idItem);
+    }
+
+    @Override
+    public void removeItemFromProduct(int idProduct, int idComposition) {
+        productDao.removeItemFromProduct(idProduct, idComposition);
+    }
+
+    @Override
+    public Product returnNewProduct() {
+        return productDao.returnNewProduct();
+    }
 }

@@ -124,16 +124,16 @@ public class OrderDao implements IOrderDao {
             info = new StringBuilder(order.getInfo());
         }
         info.append("| Изменение типа оплаты " + date + " в " + time + ", с " + order.getPaymentType() +
-                " на "+ type +".\n Причина:" + reason + "\n");
+                " на " + type + ".\n Причина:" + reason + "\n");
         order.setPaymentType(type);
         double totalCost = order.getCashAmount() + order.getCardAmount();
-        if (type.equals("cash")){
+        if (type.equals("cash")) {
             order.setCashAmount(totalCost);
             order.setCardAmount(0.0);
-        } else if (type.equals("card")){
+        } else if (type.equals("card")) {
             order.setCashAmount(0.0);
             order.setCardAmount(totalCost);
-        } else if (type.equals("different")){
+        } else if (type.equals("different")) {
             order.setCashAmount(Double.parseDouble(cash));
             order.setCardAmount(Double.parseDouble(card));
         }

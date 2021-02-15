@@ -1,7 +1,9 @@
 package ru.zhevnov.coffeeTime.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,8 +16,8 @@ public class CommercialObject {
 
     @OneToMany(mappedBy = "commercialObject", fetch = FetchType.LAZY)
     private Set<Shift> shifts = new HashSet<>();
-    @OneToMany(mappedBy = "commercialObject", fetch = FetchType.LAZY)
-    private Set<CommercialObjectQuantityOfItems> commercialObjectQuantityOfItems = new HashSet<>();
+    @OneToMany(mappedBy = "commercialObject", fetch = FetchType.EAGER)
+    private List<CommercialObjectQuantityOfItems> commercialObjectQuantityOfItems = new ArrayList<>();
 
     public CommercialObject() {
     }
@@ -48,11 +50,11 @@ public class CommercialObject {
         this.shifts = shifts;
     }
 
-    public Set<CommercialObjectQuantityOfItems> getCommercialObjectQuantityOfItems() {
+    public List<CommercialObjectQuantityOfItems> getCommercialObjectQuantityOfItems() {
         return commercialObjectQuantityOfItems;
     }
 
-    public void setCommercialObjectQuantityOfItems(Set<CommercialObjectQuantityOfItems> commercialObjectQuantityOfItems) {
+    public void setCommercialObjectQuantityOfItems(List<CommercialObjectQuantityOfItems> commercialObjectQuantityOfItems) {
         this.commercialObjectQuantityOfItems = commercialObjectQuantityOfItems;
     }
 

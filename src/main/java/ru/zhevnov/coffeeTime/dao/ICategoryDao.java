@@ -1,5 +1,6 @@
 package ru.zhevnov.coffeeTime.dao;
 
+import ru.zhevnov.coffeeTime.entity.Category;
 import ru.zhevnov.coffeeTime.entity.Product;
 
 import javax.transaction.Transactional;
@@ -10,4 +11,5 @@ public interface ICategoryDao {
     List<Product> returnAllDrinks();
     List<Product> returnAllAdditions();
     List<Product> returnAllBars();
+    List<Category> returnAllCategories();
 }

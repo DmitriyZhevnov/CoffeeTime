@@ -3,6 +3,7 @@ package ru.zhevnov.coffeeTime.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.zhevnov.coffeeTime.dao.ICategoryDao;
+import ru.zhevnov.coffeeTime.entity.Category;
 import ru.zhevnov.coffeeTime.entity.Product;
 
 import java.util.List;
@@ -31,5 +32,10 @@ public class CategoryService implements ICategoryService {
     @Override
     public List<Product> returnAllBars() {
         return categoryDao.returnAllBars();
+    }
+
+    @Override
+    public List<Category> returnAllCategories() {
+        return categoryDao.returnAllCategories();
     }
 }

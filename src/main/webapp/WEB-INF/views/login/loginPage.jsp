@@ -32,7 +32,7 @@
         <spring:message code="login.enter"/>>
     </p>
     <p><select size="1" name="comObj">
-        <option disabled>Выберите ТО</option>
+        <option disabled selected>Выберите ТО</option>
         <c:forEach items="${commercialObjects}" var="commercialobject">
             <option value=${commercialobject.id}>${commercialobject.address}</option>
         </c:forEach>

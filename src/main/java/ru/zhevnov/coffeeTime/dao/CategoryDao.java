@@ -3,6 +3,7 @@ package ru.zhevnov.coffeeTime.dao;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.zhevnov.coffeeTime.entity.Category;
 import ru.zhevnov.coffeeTime.entity.Product;
 
 import javax.transaction.Transactional;
@@ -29,5 +30,9 @@ public class CategoryDao implements ICategoryDao {
     @Transactional
     public List<Product> returnAllBars() {
         return sessionFactory.getCurrentSession().createQuery("from Product where category = '4'").list();
+    }
+    @Transactional
+    public List<Category> returnAllCategories(){
+        return sessionFactory.getCurrentSession().createQuery("from Category").list();
     }
 }

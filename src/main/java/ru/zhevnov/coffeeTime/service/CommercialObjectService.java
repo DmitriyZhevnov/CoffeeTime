@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.zhevnov.coffeeTime.dao.ICommercialObjectDao;
 import ru.zhevnov.coffeeTime.entity.CommercialObject;
+import ru.zhevnov.coffeeTime.entity.CommercialObjectQuantityOfItems;
 
 import java.util.List;
 
@@ -31,5 +32,10 @@ public class CommercialObjectService implements ICommercialObjectService {
     @Override
     public void addItemsFromOrderInCommercialObjectsStorage(int idOrder) {
         commercialObjectDao.addItemsFromOrderInCommercialObjectsStorage(idOrder);
+    }
+
+    @Override
+    public List<CommercialObjectQuantityOfItems> returnItemsInCommercialObject(int idCommercialObject) {
+        return commercialObjectDao.returnItemsInCommercialObject(idCommercialObject);
     }
 }
