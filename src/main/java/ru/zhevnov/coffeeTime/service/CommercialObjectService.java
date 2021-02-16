@@ -35,7 +35,8 @@ public class CommercialObjectService implements ICommercialObjectService {
     }
 
     @Override
-    public List<CommercialObjectQuantityOfItems> returnItemsInCommercialObject(int idCommercialObject) {
-        return commercialObjectDao.returnItemsInCommercialObject(idCommercialObject);
+    public void addItemInCommercialObjectWarehouse(int idCommercialObject, int idItem) {
+        commercialObjectDao.addItemInCommercialObjectWarehouse(idCommercialObject, idItem);
     }
+
 }

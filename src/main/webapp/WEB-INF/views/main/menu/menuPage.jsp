@@ -12,6 +12,7 @@
     <title>Title</title>
 </head>
 <body>
+<a href="/main">Назад</a>
 <table>
     <tr>
         <td colspan="4">

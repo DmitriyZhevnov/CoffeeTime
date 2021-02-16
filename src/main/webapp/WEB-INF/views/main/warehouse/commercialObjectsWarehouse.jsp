@@ -13,10 +13,11 @@
     <title>Title</title>
 </head>
 <body>
+<a href="/warehouse">На главный склад</a>
 <table>
     <tr>
         <td colspan="4">
-            <form action="/warehouse/object/" method="get">
+            <form action="/warehouse/commercialObject/" method="get">
                 <p>Выберите объект:</p>
                 <p>
                     <select name="idCommercialObject">
@@ -30,7 +31,7 @@
             </form>
         </td>
         <td>
-            <form action="/warehouse/object/addItem" method="post">
+            <form action="/warehouse/commercialObject/${commObject.id}/addItem" method="post">
                 <select name="idItem">
                     <option selected disabled>Выберите</option>
                     <c:forEach items="${items}" var="item">
@@ -47,7 +48,7 @@
         <th>Количество</th>
         <th></th>
     </tr>
-    <c:forEach items="${commercialObjectsItems}" var="item">
+    <c:forEach items="${commObject.commercialObjectQuantityOfItems}" var="item">
         <form action="/warehouse/commercialObject/${item.id}" method="post">
             <tr>
                 <td>${item.items.get(0).name}</td>

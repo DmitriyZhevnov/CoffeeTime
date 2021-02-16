@@ -9,6 +9,7 @@ import ru.zhevnov.coffeeTime.service.IShiftService;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,8 +72,13 @@ public class CommercialObjectDao implements ICommercialObjectDao {
     }
 
     @Transactional
-    public List<CommercialObjectQuantityOfItems> returnItemsInCommercialObject(int idCommercialObject){
+    public void addItemInCommercialObjectWarehouse(int idCommercialObject, int idItem){
         CommercialObject commercialObject = sessionFactory.getCurrentSession().get(CommercialObject.class, idCommercialObject);
-        return commercialObject.getCommercialObjectQuantityOfItems();
+        Item item = sessionFactory.getCurrentSession().get(Item.class, idItem);
+        CommercialObjectQuantityOfItems objectQuantityOfItems = new CommercialObjectQuantityOfItems();
+        item.getCommercialObjectQuantityOfItems().add(objectQuantityOfItems);
+        objectQuantityOfItems.setCommercialObject(commercialObject);
+        sessionFactory.getCurrentSession().save(objectQuantityOfItems);
+        sessionFactory.getCurrentSession().update(commercialObject);
     }
 }

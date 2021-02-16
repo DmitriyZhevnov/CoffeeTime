@@ -57,7 +57,7 @@ public class WarehouseController {
     @GetMapping("/commercialObject")
     public String showWarehouseOfCommercialObject(@RequestParam("idCommercialObject") int idCommercialObject, Model model) {
         model.addAttribute("commercialObjects", commercialObjectService.returnAllCommercialObjects());
-        model.addAttribute("commercialObjectsItems", commercialObjectService.returnItemsInCommercialObject(idCommercialObject));
+        model.addAttribute("commObject", commercialObjectService.returnCommercialObjectById(idCommercialObject));
         model.addAttribute("items", itemService.returnAllItems());
         return "main/warehouse/commercialObjectsWarehouse";
     }
@@ -69,11 +69,15 @@ public class WarehouseController {
             itemService.updateCommercialObjectsItem(idItem, Double.parseDouble(quantityItem));
         } catch (NumberFormatException e) {
         }
-        model.addAttribute("commercialObjects", commercialObjectService.returnAllCommercialObjects());
-        model.addAttribute("commercialObjectsItems", commercialObjectService.returnItemsInCommercialObject(idCommercialObject));
-        return "main/warehouse/commercialObjectsWarehouse";
+        return "redirect:/warehouse/commercialObject?idCommercialObject=" + idCommercialObject;
 
     }
-//    @PostMapping("/")
+
+    @PostMapping("/commercialObject/{idCommercialObject}/addItem")
+    public String addItemToCommercialObject(@PathVariable("idCommercialObject") int idCommercialObject,
+                                            @RequestParam("idItem") int idItem){
+        commercialObjectService.addItemInCommercialObjectWarehouse(idCommercialObject, idItem);
+        return "redirect:/warehouse/commercialObject?idCommercialObject=" + idCommercialObject;
+    }
 
 }

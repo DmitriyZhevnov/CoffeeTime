@@ -70,7 +70,7 @@
         <td height="10%"></td>
         <td></td>
         <td height="10%" valign="top" align="right">
-            <form:form action="" method="get">
+            <form:form action="/main/block" method="get">
                 <input type="submit" value="Заблокировать">
             </form:form>
         </td>
