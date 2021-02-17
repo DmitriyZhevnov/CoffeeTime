@@ -9,6 +9,7 @@ import ru.zhevnov.coffeeTime.entity.Employee;
 
 
 import javax.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
 
 @Repository
 public class ClientDao implements IClientDao {
@@ -17,7 +18,16 @@ public class ClientDao implements IClientDao {
     private SessionFactory sessionFactory;
 
     @Transactional
-    public void registerNewClient(String name, String phoneNumber) {
+    public void registerNewClient(String name, String phoneNumber) throws UnsupportedEncodingException {
+        String str = new String (name.getBytes(),"Cp1251");
+        String str2 = new String (name.getBytes(),"UTF-8");
+        String str3 = new String (name.getBytes(),"UTF-16");
+        String str4 = new String (name.getBytes(),"windows-1251");
+        System.out.println(name);
+        System.out.println(str);
+        System.out.println(str2);
+        System.out.println(str3);
+        System.out.println(str4);
         sessionFactory.getCurrentSession().save(new Client(name, phoneNumber, 1));
     }
 

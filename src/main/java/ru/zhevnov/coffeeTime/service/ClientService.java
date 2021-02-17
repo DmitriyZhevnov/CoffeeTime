@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.zhevnov.coffeeTime.dao.IClientDao;
 import ru.zhevnov.coffeeTime.entity.Client;
 
+import java.io.UnsupportedEncodingException;
+
 @Service
 public class ClientService implements IClientService {
 
@@ -13,7 +15,13 @@ public class ClientService implements IClientService {
 
     @Override
     public void registerNewClient(String name, String phoneNumber) {
-        clientDao.registerNewClient(name, phoneNumber);
+       ///////удалить try catch
+        try {
+            clientDao.registerNewClient(name, phoneNumber);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        //////////////////
     }
 
     @Override

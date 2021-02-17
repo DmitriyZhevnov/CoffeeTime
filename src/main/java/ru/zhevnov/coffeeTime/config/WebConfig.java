@@ -31,6 +31,8 @@ import java.util.List;
 @ComponentScan(basePackages = { "ru.zhevnov.coffeeTime.controller"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+
+
     @Bean
     public InternalResourceViewResolver resolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
